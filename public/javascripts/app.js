@@ -1,5 +1,5 @@
 -function(window, docuemnt, $, undefined) {
-	var socket = io.connect('http://localhost:3001');
+	var socket = io.connect('http://' + window.location.host);
 	socket.on('news', function(data) {
 		console.log(data);
 		socket.emit('someevent', { my: 'data' });
