@@ -27,10 +27,11 @@
 			
 			if (map) {
 				var marker = new google.maps.Marker({
-					position: new google.maps.LatLng(data.latitude, data.longtitude),
+					position: new google.maps.LatLng(data.latitude, data.longitude),
 					map: map,
 					title: data._clientId
 				}); 
+				console.log(marker);
 			}
 		});
 		
@@ -40,12 +41,12 @@
 	});
 
 	google.maps.event.addDomListener(window, 'load', function() {
-		var div = document.getElementById('map_canvas'),
-			map = new google.maps.Map(div, {
-				zoom: 8,
-				center: new google.maps.LatLng(35.663411, 139.70502),
-				mapTypeId: google.maps.MapTypeId.ROADMAP,
-				scaleControl: true
-			});
+		var div = document.getElementById('map_canvas');
+		map = new google.maps.Map(div, {
+			zoom: 8,
+			center: new google.maps.LatLng(35.663411, 139.70502),
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			scaleControl: true
+		});
 	});
 }(window, document, jQuery);
