@@ -4,15 +4,17 @@ var _ = underscore = require('underscore'),
 	net = require("net"),
 	sys = require('sys'),
 	crypto = require('crypto'),
+	redis = require('redis'),
+	redisClient = redis.createClient()
 	client = require('./lib/client.js'),
 	clients = {},
 	app = module.exports = express.createServer(),
 	io = socketio.listen(app);
 
 
-// process.on('uncaughtException', function (err) {
-// 	console.log(err);
-// });
+process.on('uncaughtException', function (err) {
+ 	console.log(err);
+});
 
 // Configuration
 app.configure(function() {
@@ -55,6 +57,7 @@ var server = net.createServer(function(stream) {
 	});
 	socketClient.on('broadcast', function(data) {
 		io.sockets.emit(data.type, data.data);
+		redisClient.set(socketClient.clientId + ':' + data.type + ':' + data.data._timestamp, data, redis.print);
 	});
 });
 
