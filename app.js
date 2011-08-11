@@ -4,9 +4,15 @@ var _ = underscore = require('underscore'),
 	net = require("net"),
 	sys = require('sys'),
 	crypto = require('crypto'),
+	client = require('./lib/client.js'),
 	clients = {},
 	app = module.exports = express.createServer(),
 	io = socketio.listen(app);
+
+
+// process.on('uncaughtException', function (err) {
+// 	console.log(err);
+// });
 
 // Configuration
 app.configure(function() {
@@ -38,62 +44,28 @@ app.get('/', function(req, res) {
 
 app.listen(3001);
 
+// socket server
 var server = net.createServer(function(stream) {
-	console.log("tcp client: " + stream.remoteAddress);
-	stream.setEncoding("utf8");
-	
-	stream.on("connect", function() {
-		console.log('connect');
-		var shasum = crypto.createHash('sha1'), sha1;
-		shasum.update(stream.remoteAddress + '-' + stream.remotePort);
-		sha1 = shasum.digest('hex');
-		console.log(sha1);
-		stream.write(JSON.stringify({ id: sha1, type: 'hello', data: { clientId: sha1, timestamp: new Date() / 1000 } }));
+	var socketClient = new client.Client(stream);
+	socketClient.on('hello', function(data) {
+		clients[data.clientId] = client;
 	});
-	stream.on("data", function(data) {
-		console.log('data');
-		var serverTimestamp = new Date().getTime() / 1000;
-		var requests = data.split("\0");
-		requests = _.reject(requests, function(val) {
-			return val.length < 1;
-		});
-		console.log(requests);
-		requests.forEach(function(request) {
-			var request = JSON.parse(request);
-			var clientTimestamp = parseFloat(request.data.timestamp);
-			console.log([clientTimestamp, serverTimestamp]);
-			console.log('laytency -> ' + (serverTimestamp - clientTimestamp));
-			 
-			if (clients[request.id]) {
-				
-			}
-			io.sockets.emit(request.type, request.data);
-		});
+	socketClient.on('bye', function(data) {
+		delete clients[data.clientId];
 	});
-	stream.on("end", function() {
-		console.log('end');
-	});
-	stream.on("error", function() {
-		console.log('error');
-	});
-	stream.on('timeout', function() {
-		console.log('timeout');
+	socketClient.on('broadcast', function(data) {
+		io.sockets.emit(data.type, data.data);
 	});
 });
 
-server.listen(9337, function() {
-	
-});
+server.listen(9337, function() { });
 
+// websockets server
 io.sockets.on('connection', function(socket) {
 	socket.emit('news', { hello: 'world' });
 	socket.on('someevent', function(data) {
 		console.log(data);
 	})
-});
-
-process.on('uncaughtException', function (err) {
-	console.log(err);
 });
 
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
