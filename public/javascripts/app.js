@@ -13,5 +13,8 @@
 		socket.on('accel', function(data) {
 			$ul.append($('<li>' + JSON.stringify(data) + '</li>'));
 		});
+		socket.on('location', function(data) {
+			$ul.append($('<li>' + JSON.stringify(data) + '</li>'));
+		});
 	});
 }(window, document, jQuery);
