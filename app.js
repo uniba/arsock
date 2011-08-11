@@ -48,7 +48,7 @@ app.listen(3001);
 var server = net.createServer(function(stream) {
 	var socketClient = new client.Client(stream);
 	socketClient.on('hello', function(data) {
-		clients[data.clientId] = client;
+		clients[data.clientId] = socketClient;
 	});
 	socketClient.on('bye', function(data) {
 		delete clients[data.clientId];
