@@ -48,7 +48,7 @@ var server = net.createServer(function(stream) {
 		shasum.update(stream.remoteAddress + '-' + stream.remotePort);
 		sha1 = shasum.digest('hex');
 		console.log(sha1);
-		stream.write(JSON.stringify({ id: sha1, type: 'hello' }));
+		stream.write(JSON.stringify({ id: sha1, type: 'hello', data: { clientId: sha1, timestamp: new Date() / 1000 } }));
 	});
 	stream.on("data", function(data) {
 		console.log('data');
@@ -60,24 +60,21 @@ var server = net.createServer(function(stream) {
 		console.log(requests);
 		requests.forEach(function(request) {
 			var request = JSON.parse(request);
-			var clientTimestamp = parseFloat(request.timestamp);
+			var clientTimestamp = parseFloat(request.data.timestamp);
 			console.log([clientTimestamp, serverTimestamp]);
 			console.log('laytency -> ' + (serverTimestamp - clientTimestamp));
 			 
 			if (clients[request.id]) {
 				
 			}
-			io.sockets.emit(request.type, request);
+			io.sockets.emit(request.type, request.data);
 		});
 	});
 	stream.on("end", function() {
 		console.log('end');
-		console.log(arguments);
 	});
 	stream.on("error", function() {
 		console.log('error');
-		console.log(arguments);
-		sys.log('ignoring exception on stream');
 	});
 	stream.on('timeout', function() {
 		console.log('timeout');
