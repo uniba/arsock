@@ -48,7 +48,7 @@ var server = net.createServer(function(stream) {
 		shasum.update(stream.remoteAddress + '-' + stream.remotePort);
 		sha1 = shasum.digest('hex');
 		console.log(sha1);
-		stream.write(JSON.stringify({ id: sha1, command: 'hello' }));
+		stream.write(JSON.stringify({ id: sha1, type: 'hello' }));
 	});
 	stream.on("data", function(data) {
 		console.log('data');
@@ -67,7 +67,7 @@ var server = net.createServer(function(stream) {
 			if (clients[request.id]) {
 				
 			}
-			io.sockets.emit(request.command, request);
+			io.sockets.emit(request.type, request);
 		});
 	});
 	stream.on("end", function() {
