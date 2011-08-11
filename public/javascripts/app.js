@@ -1,6 +1,7 @@
 -function(window, docuemnt, $, undefined) {
 	var map,
 		socket = io.connect('http://' + window.location.host);
+	
 	socket.on('news', function(data) {
 		console.log(data);
 		socket.emit('someevent', { my: 'data' });
@@ -8,18 +9,29 @@
 	
 	$(function() {
 		$ul = $('<ul></ul>').appendTo('body');
+		
+		function log(type, data) {
+			$ul.prepend($('<li>' + type  + ': ' + JSON.stringify(data) + '</li>'));			
+		}
+		
 		socket.on('ping', function(data) {
-			$ul.prepend($('<li>' + JSON.stringify(data) + '</li>'));
+			log('ping', data);
 		});
-		socket.on('accel', function(data) {
-			$ul.prepend($('<li>' + JSON.stringify(data) + '</li>'));
+		
+		socket.on('accelerometer', function(data) {
+			log('accelerometer', data);
 		});
+		
 		socket.on('location', function(data) {
-			$ul.prepend($('<li>' + JSON.stringify(data) + '</li>'));
+			log('location', data);
+			
 			if (map) {
-				
 			}
 		});
+		
+		socket.on('heading', function(data) {
+			log('heading', data);
+		})
 	});
 
 	google.maps.event.addDomListener(window, 'load', function() {
