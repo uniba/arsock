@@ -54,7 +54,12 @@ var server = net.createServer(function(stream) {
 		delete clients[data.clientId];
 	});
 	socketClient.on('broadcast', function(data) {
-		io.sockets.emit(data.type, data.data);
+		if (!clients[data._clientId]) {
+			socketClient.emit('bye');
+		}
+		else {
+			io.sockets.emit(data.type, data.data);
+		}
 	});
 });
 
