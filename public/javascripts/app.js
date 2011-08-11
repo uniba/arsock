@@ -26,6 +26,11 @@
 			log('location', data);
 			
 			if (map) {
+				var marker = new google.maps.Marker({
+					position: new google.maps.LatLng(data.latitude, data.longtitude),
+					map: map,
+					title: data._clientId
+				}); 
 			}
 		});
 		

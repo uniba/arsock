@@ -50,14 +50,19 @@ app.listen(3001);
 var server = net.createServer(function(stream) {
 	var socketClient = new client.Client(stream);
 	socketClient.on('hello', function(data) {
-		clients[data.clientId] = client;
+		clients[data.clientId] = socketClient;
 	});
 	socketClient.on('bye', function(data) {
 		delete clients[data.clientId];
 	});
 	socketClient.on('broadcast', function(data) {
-		io.sockets.emit(data.type, data.data);
-		redisClient.set(socketClient.clientId + ':' + data.type + ':' + data.data._timestamp, data, redis.print);
+		if (!clients[data._clientId]) {
+			socketClient.emit('bye');
+		}
+		else {
+			io.sockets.emit(data.type, data.data);
+			redisClient.set(socketClient.clientId + ':' + data.type + ':' + data.data._timestamp, data, redis.print);
+		}
 	});
 });
 
