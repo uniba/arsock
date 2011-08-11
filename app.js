@@ -6,8 +6,7 @@ var _ = underscore = require('underscore'),
 	crypto = require('crypto'),
 	clients = {},
 	app = module.exports = express.createServer(),
-	io = socketio.listen(app),
-	ws;
+	io = socketio.listen(app);
 
 // Configuration
 app.configure(function() {
@@ -40,7 +39,6 @@ app.get('/', function(req, res) {
 app.listen(3001);
 
 var server = net.createServer(function(stream) {
-	console.log(stream);
 	console.log("tcp client: " + stream.remoteAddress);
 	stream.setEncoding("utf8");
 	
@@ -69,9 +67,7 @@ var server = net.createServer(function(stream) {
 			if (clients[request.id]) {
 				
 			}
-			if (ws) {
-				ws.emit(request.command, request);
-			}
+			io.sockets.emit(request.command, request);
 		});
 	});
 	stream.on("end", function() {
@@ -93,7 +89,6 @@ server.listen(9337, function() {
 });
 
 io.sockets.on('connection', function(socket) {
-	ws = socket;
 	socket.emit('news', { hello: 'world' });
 	socket.on('someevent', function(data) {
 		console.log(data);
