@@ -56,13 +56,13 @@ var server = net.createServer(function(stream) {
 		delete clients[data.clientId];
 	});
 	socketClient.on('broadcast', function(data) {
-		if (!clients[data._clientId]) {
-			socketClient.emit('bye');
-		}
-		else {
+	//	if (!clients[data._clientId]) {
+	//		socketClient.emit('bye');
+	//	}
+	//	else {
 			io.sockets.emit(data.type, data.data);
 			redisClient.set(socketClient.clientId + ':' + data.type + ':' + data.data._timestamp, data, redis.print);
-		}
+	//	}
 	});
 });
 
