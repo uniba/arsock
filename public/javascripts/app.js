@@ -8,20 +8,24 @@
 	});
 	
 	$(function() {
-		$ul = $('<ul></ul>').appendTo('body');
+		var $list = $('<ul><li></li></ul>').appendTo('body');
 		
 		function log(type, data) {
-			$ul.prepend($('<li>' + type  + ': ' + JSON.stringify(data) + '</li>'));			
+			$list.prepend($('<li>' + type  + ': ' + JSON.stringify(data) + '</li>'));			
+			if ($list.find('li').length > 10) {
+				$list.find('li').last().remove();
+			}
+			if (console) {
+				console.log([type, JSON.stringify(data)]);
+			}
 		}
 		
 		socket.on('ping', function(data) {
 			log('ping', data);
 		});
-		
 		socket.on('accelerometer', function(data) {
 			log('accelerometer', data);
 		});
-		
 		socket.on('location', function(data) {
 			log('location', data);
 			
@@ -37,7 +41,7 @@
 		
 		socket.on('heading', function(data) {
 			log('heading', data);
-		})
+		});
 	});
 
 	google.maps.event.addDomListener(window, 'load', function() {
