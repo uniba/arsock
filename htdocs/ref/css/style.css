@@ -159,30 +159,40 @@ body {
         float: left;
         width: 480px;
         padding: 0 10px; }
-  #container #access {
-    width: 1000px;
-    margin: 0 auto; }
-    #container #access h2 {
-      padding: 0 0 20px 0; }
-    #container #access .space {
-      float: left;
-      width: 550px; }
-    #container #access .map {
-      float: left;
-      width: 414px;
-      padding: 0 0 0 36px; }
-      #container #access .map #map {
-        width: 414px;
-        height: 314px; }
   #container #information {
     width: 1000px;
     margin: 0 auto;
     padding: 10px 0 30px 0; }
+    #container #information h2 {
+      padding: 0 0 20px 0; }
+    #container #information .space {
+      float: left;
+      width: 550px; }
+    #container #information .schedule {
+      float: left;
+      width: 414px;
+      padding: 0 0 0 36px; }
     #container #information ul {
       padding: 10px 0; }
     #container #information dl {
-      padding: 10px 0; }
+      padding: 10px 0;
+      font-size: 0.9em; }
       #container #information dl dt {
+        font-weight: bold; }
+  #container #access {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 10px 0 30px 0; }
+    #container #access #map {
+      float: left;
+      width: 550px;
+      height: 314px; }
+    #container #access dl {
+      float: left;
+      width: 414px;
+      padding: 0 0 0 36px;
+      font-size: 0.9em; }
+      #container #access dl dt {
         font-weight: bold; }
   #container #social {
     width: 1000px;

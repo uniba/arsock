@@ -193,10 +193,11 @@ body {
 			}
 		}
 	}
-	
-	#access {
+		
+	#information {
 		width: $width;
 		margin: 0 auto;
+		padding: 10px 0 30px 0;
 		
 		h2 {
 			padding: 0 0 20px 0;
@@ -207,22 +208,11 @@ body {
 			width: 550px;
 		}
 		
-		.map {
+		.schedule {
 			float: left;
 			width: $width - 550px - 36px;
-			padding: 0 0 0 36px;
-
-			#map {
-				width: $width - 550px - 36px;
-				height: 314px;
-			}
-		}		
-	}
-	
-	#information {
-		width: $width;
-		margin: 0 auto;
-		padding: 10px 0 30px 0;
+			padding: 0 0 0 36px;			
+		}
 		
 		ul {
 			padding: 10px 0;
@@ -234,6 +224,7 @@ body {
 		
 		dl {
 			padding: 10px 0;
+			font-size: 0.9em;
 		
 			dt {
 				font-weight: bold;
@@ -242,6 +233,32 @@ body {
 			dd {
 			}
 		}
+	}
+	
+	#access {
+		width: $width;
+		margin: 0 auto;
+		padding: 10px 0 30px 0;
+		
+		#map {
+			float: left;
+			width: 550px;
+			height: 314px;
+		}
+		
+		dl {
+			float: left;
+			width: $width - 550px - 36px;
+			padding: 0 0 0 36px;
+			font-size: 0.9em;
+			
+			dt {
+				font-weight: bold;
+			}
+			
+			dd {
+			}
+		}		
 	}
 	
 	#social {
