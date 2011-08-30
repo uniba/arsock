@@ -1,0 +1,99 @@
+@charset "UTF-8";
+* {
+  margin: 0;
+  padding: 0; }
+
+html {
+  height: 100%; }
+
+body {
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  color: #000000;
+  font-size: 1em;
+  line-height: 1; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  font-weight: normal; }
+
+ul, li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  list-style-position: outside; }
+
+img, a img {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-style: none;
+  text-decoration: none;
+  vertical-align: top; }
+
+object, embed {
+  vertical-align: bottom; }
+
+input {
+  vertical-align: top; }
+
+a {
+  text-decoration: none;
+  color: #8a8a8a; }
+  a:hover {
+    color: #323232; }
+  a:focus {
+    outline: none; }
+
+p {
+  margin: 0;
+  padding: 0; }
+
+table,
+table th,
+table td {
+  border-collapse: collapse;
+  text-align: left; }
+
+.clear {
+  clear: both; }
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  font-size: 0;
+  clear: both;
+  visibility: hidden; }
+
+.clearfix {
+  zoom: 1; }
+
+#container {
+  width: 100%; }
+  #container #header {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: relative;
+    z-index: 100; }
+    #container #header h1 {
+      text-align: center; }
+  #container #canvas #tokyo,
+  #container #canvas #linz {
+    width: 100%;
+    height: 700px;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    left: 0; }
+  #container #canvas #streetview {
+    width: 80%;
+    height: 500px;
+    position: absolute;
+    top: 100px;
+    left: 10%; }
+  #container #access #map {
+    width: 400px;
+    height: 400px; }
