@@ -71,10 +71,17 @@ table td {
 .clearfix {
   zoom: 1; }
 
+body {
+  color: #333333;
+  font-size: 1.3em;
+  line-height: 1.5em;
+  font-family: "ＭＳ Ｐゴシック", Osaka, "ヒラギノ角ゴ Pro W3"; }
+
 #container {
   width: 100%; }
   #container #header {
     width: 100%;
+    padding: 50px 0;
     background-color: rgba(0, 0, 0, 0.7);
     position: relative;
     z-index: 100; }
@@ -83,17 +90,107 @@ table td {
   #container #canvas #tokyo,
   #container #canvas #linz {
     width: 100%;
-    height: 700px;
+    height: 800px;
     opacity: 0.5;
     position: absolute;
     top: 0;
     left: 0; }
   #container #canvas #streetview {
     width: 80%;
-    height: 500px;
+    height: 600px;
     position: absolute;
     top: 100px;
     left: 10%; }
-  #container #access #map {
-    width: 400px;
-    height: 400px; }
+  #container #description {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 20px 0 36px 0; }
+    #container #description h2 {
+      padding: 0 0 20px 0; }
+  #container #widget {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 0 0 36px 0; }
+    #container #widget #flickr {
+      float: left;
+      width: 550px; }
+      #container #widget #flickr #flickr_badge_uber_wrapper {
+        width: 550px; }
+      #container #widget #flickr #flickr_badge_wrapper {
+        padding: 10px 0 10px 0; }
+      #container #widget #flickr .flickr_badge_image {
+        float: left;
+        padding: 0 10px 10px 10px; }
+      #container #widget #flickr .flickr_badge_image img {
+        border: 1px solid black !important; }
+      #container #widget #flickr #flickr_badge_source {
+        text-align: left;
+        margin: 0 10px 0 10px; }
+      #container #widget #flickr #flickr_badge_icon {
+        float: left;
+        margin-right: 5px; }
+      #container #widget #flickr #flickr_www {
+        display: block;
+        padding: 0 10px 0 10px !important;
+        font: 11px Arial, Helvetica, Sans serif !important;
+        color: #3993ff !important; }
+      #container #widget #flickr #flickr_badge_uber_wrapper a:hover,
+      #container #widget #flickr #flickr_badge_uber_wrapper a:link,
+      #container #widget #flickr #flickr_badge_uber_wrapper a:active,
+      #container #widget #flickr #flickr_badge_uber_wrapper a:visited {
+        text-decoration: none !important;
+        background: inherit !important;
+        color: #3993ff; }
+      #container #widget #flickr #flickr_badge_wrapper {
+        background-color: #ffffff;
+        border: solid 1px #000000; }
+      #container #widget #flickr #flickr_badge_source {
+        clear: both;
+        padding: 0 !important;
+        font: 11px Arial, Helvetica, Sans serif !important;
+        color: #666666 !important; }
+    #container #widget #twitter {
+      float: left;
+      width: 414px;
+      padding: 0 0 0 36px; }
+    #container #widget #ustream {
+      padding: 20px 0 0 0; }
+      #container #widget #ustream .channel {
+        float: left;
+        width: 480px;
+        padding: 0 10px; }
+  #container #access {
+    width: 1000px;
+    margin: 0 auto; }
+    #container #access h2 {
+      padding: 0 0 20px 0; }
+    #container #access .space {
+      float: left;
+      width: 550px; }
+    #container #access .map {
+      float: left;
+      width: 414px;
+      padding: 0 0 0 36px; }
+      #container #access .map #map {
+        width: 414px;
+        height: 314px; }
+  #container #information {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 10px 0 30px 0; }
+    #container #information ul {
+      padding: 10px 0; }
+    #container #information dl {
+      padding: 10px 0; }
+      #container #information dl dt {
+        font-weight: bold; }
+  #container #social {
+    width: 1000px;
+    margin: 0 auto; }
+    #container #social ul {
+      width: 1000px;
+      padding: 10px 0 100px 0;
+      border-top: 5px solid #000000; }
+      #container #social ul li {
+        float: left;
+        padding: 0 40px 0 0; }

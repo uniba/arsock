@@ -2,6 +2,7 @@
 
     var linz;
     var tokyo;
+    var map;
     var panorama;
     // 初期化。bodyのonloadでinit()を指定することで呼び出してます
     function init() {
@@ -24,7 +25,21 @@
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         center: latlng
       };
+      var options = {
+      	zoom: 16,
+        disableDefaultUI: false,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: latlng
+      }
+      
       tokyo = new google.maps.Map(document.getElementById("tokyo"), opts);
+      map = new google.maps.Map(document.getElementById("map"), options);
+      var marker = new google.maps.Marker({
+	      position: latlng, 
+	      map: map,
+	      title:"Uniba Inc."
+	  });
+      
 
       var panoramaOptions = {
         position: latlng,
@@ -61,15 +76,4 @@
         );
         timerId=setTimeout("move()", 2000);
     }
-    
-    /*function location() {    
-	    var latlng = new google.maps.LatLng(35.663411, 139.70502);
-	    var myOptions = {
-	      zoom: 16,
-	      center: latlng,
-	      mapTypeId: google.maps.MapTypeId.ROADMAP
-	    };
-	    var map = new google.maps.Map(document.getElementById("map"), myOptions);
-	}*/
-    
 //]]>
