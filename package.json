@@ -5,7 +5,7 @@
   , "dependencies": {
       "express": "2.4.x"
     , "jade": "0.x"
-    , "socket.io": "0.7.x"
+    , "socket.io": "0.8.x"
     , "stylus": "0.x"
     , "underscore": "1.1.x"
   }
