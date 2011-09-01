@@ -44,7 +44,7 @@ app.get('/', function(req, res) {
 	});
 });
 
-app.listen(3001);
+app.listen(3000);
 
 // socket server
 var server = net.createServer(function(stream) {
