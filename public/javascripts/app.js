@@ -15,9 +15,9 @@
 			if ($list.find('li').length > 10) {
 				$list.find('li').last().remove();
 			}
-			if (console) {
-				console.log([type, JSON.stringify(data)]);
-			}
+			//if (console) {
+			//	console.log([type, JSON.stringify(data)]);
+			//}
 		}
 		
 		socket.on('ping', function(data) {
@@ -25,7 +25,6 @@
 		});
 		socket.on('accelerometer', function(data) {
 			log('accelerometer', data);
-			setRotate(data);
 		});
 		socket.on('location', function(data) {
 			log('location', data);
@@ -42,6 +41,7 @@
 		
 		socket.on('heading', function(data) {
 			log('heading', data);
+			setRotate( data );
 		});
 		
 		init();
@@ -64,7 +64,7 @@
 
 	var camTargetX;
 	var camTargetY;
-	var camTargetDistance;
+	var camTargetDistance = 1000;
 
 	var windowHalfX = window.innerWidth / 2;
 	var windowHalfY = window.innerHeight / 2;
@@ -94,15 +94,67 @@
 		group = new THREE.Object3D();
 		scene.addObject( group );
 
-		for ( var i = 0; i < 1000; i++ ) {
+		for ( var i = 0; i < 10; i++ ) {
+			for ( var j = 0; j < 10; j++ ) {
+				for ( var k = 0; k < 10; k++ ) {
 
-			particle = new THREE.Particle( new THREE.ParticleCanvasMaterial( { color: Math.random() * 0x808008 + 0x808080, program: program } ) );
-			particle.position.x = Math.random() * 2000 - 1000;
-			particle.position.y = Math.random() * 2000 - 1000;
-			particle.position.z = Math.random() * 2000 - 1000;
-			particle.scale.x = particle.scale.y = Math.random() * 10 + 5;
-			group.addChild( particle );
+					particle = new THREE.Particle( new THREE.ParticleCanvasMaterial( { color: 0xFFFFFF, program: program } ) );
+					particle.position.x = i*100 - 5*100;
+					particle.position.y = j*100 - 5*100;
+					particle.position.z = k*100 - 5*100;
+					particle.scale.x = particle.scale.y = 2;
+					group.addChild( particle );
+
+				}
+			}
 		}
+		
+		/*
+		// particles
+
+		var PI2 = Math.PI * 2;
+		var material = new THREE.ParticleCanvasMaterial( {
+
+			color: 0xffffff,
+			program: function ( context ) {
+
+				context.beginPath();
+				context.arc( 0, 0, 1, 0, PI2, true );
+				context.closePath();
+				context.fill();
+
+			}
+
+		} );
+
+		var geometry = new THREE.Geometry();
+
+		for ( var i = 0; i < 10; i++ ) {
+			for ( var j = 0; j < 10; j++ ) {
+				for ( var k = 0; k < 10; k++ ) {
+
+					/*
+					particle = new THREE.Particle( material );
+					particle.position.x = i * 2/10 - 2/5;
+					particle.position.y = j * 2/10 - 2/5;
+					particle.position.z = k * 2/10 - 2/5;
+					particle.position.normalize();
+					particle.position.multiplyScalar( 10 + 450 );
+					particle.scale.x = particle.scale.y = 5;
+					scene.addObject( particle );
+					
+
+					geometry.vertices.push( new THREE.Vertex( particle.position ) );
+				}
+			}
+		}
+
+		// lines
+
+		var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 0.5 } ) );
+		scene.addObject( line );
+		*/
+				
 
 		renderer = new THREE.CanvasRenderer();
 		renderer.setSize( window.innerWidth, window.innerHeight );
@@ -160,15 +212,21 @@
 	}
 	
 	function setRotate( data ) {
-		camTargetX = Math.sin(data.trueHeading) * camTargetDistance;
-		camTargetY = Math.cos(data.trueHeading) * camTargetDistance;
-		render();
+		//console.log(['setrotate', data.trueHeading/Math.PI*2]);
+		camera.target.position.x = Math.sin(data.trueHeading/(Math.PI*16)) * camTargetDistance;
+		camera.target.position.z = Math.cos(data.trueHeading/(Math.PI*16)) * camTargetDistance;
+		
+		camera.position.x = data.x;
+		camera.position.y = data.y;
+		camera.position.z = data.z;
+		
+		renderer.render( scene, camera );
 	}
 
 	function render() {
 
-		camera.target.x = camTargetX;
-		camera.target.y = camTargetY;
+		//camera.target.x = camTargetX;
+		//camera.target.y = camTargetY;
 		//camera.position.x += ( mouseX - camera.position.x ) * 0.05;
 		//camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
 
