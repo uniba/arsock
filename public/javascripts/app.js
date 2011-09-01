@@ -72,7 +72,7 @@
 	function init() {
 
 		container = document.createElement( 'div' );
-		document.body.appendChild( container );
+		document.getElementById( 'canvas' ).appendChild( container );
 
 		camera = new THREE.Camera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
 		camera.position.x = 0;
@@ -162,6 +162,7 @@
 	function setRotate( data ) {
 		camTargetX = Math.sin(data.trueHeading) * camTargetDistance;
 		camTargetY = Math.cos(data.trueHeading) * camTargetDistance;
+		render();
 	}
 
 	function render() {
