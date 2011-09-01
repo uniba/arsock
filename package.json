@@ -8,5 +8,6 @@
     , "socket.io": "0.8.x"
     , "stylus": "0.x"
     , "underscore": "1.1.x"
+    , "mongoose": "2.0.x"
   }
 }
