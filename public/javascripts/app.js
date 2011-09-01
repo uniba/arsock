@@ -25,6 +25,7 @@
 		});
 		socket.on('accelerometer', function(data) {
 			log('accelerometer', data);
+			setRotate(data);
 		});
 		socket.on('location', function(data) {
 			log('location', data);
@@ -51,7 +52,7 @@
 		var div = document.getElementById('map_canvas');
 		map = new google.maps.Map(div, {
 			zoom: 8,
-			center: new google.maps.LatLng(35.663411, 139.70502),
+			center: new google.maps.LatLng(48.309659, 14.284415),
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			scaleControl: true
 		});
@@ -61,16 +62,22 @@
 	var camera, scene, renderer, group, particle;
 	var mouseX = 0, mouseY = 0;
 
+	var camTargetX;
+	var camTargetY;
+	var camTargetDistance;
+
 	var windowHalfX = window.innerWidth / 2;
 	var windowHalfY = window.innerHeight / 2;
-
+	
 	function init() {
 
 		container = document.createElement( 'div' );
 		document.body.appendChild( container );
 
 		camera = new THREE.Camera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
-		camera.position.z = 1000;
+		camera.position.x = 0;
+		camera.position.y = 0;
+		camera.position.z = 0;
 
 		scene = new THREE.Scene();
 
@@ -151,14 +158,21 @@
 		stats.update();
 
 	}
+	
+	function setRotate( data ) {
+		camTargetX = Math.sin(data.trueHeading) * camTargetDistance;
+		camTargetY = Math.cos(data.trueHeading) * camTargetDistance;
+	}
 
 	function render() {
 
-		camera.position.x += ( mouseX - camera.position.x ) * 0.05;
-		camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+		camera.target.x = camTargetX;
+		camera.target.y = camTargetY;
+		//camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+		//camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
 
-		group.rotation.x += 0.01;
-		group.rotation.y += 0.02;
+		//group.rotation.x += 0.01;
+		//group.rotation.y += 0.02;
 
 		renderer.render( scene, camera );
 
