@@ -67,14 +67,14 @@
 	var camTargetDistance = 1000;
 
 	var windowHalfX = window.innerWidth / 2;
-	var windowHalfY = window.innerHeight / 2;
+	var windowHalfY = 600 / 2;
 	
 	function init() {
 
 		container = document.createElement( 'div' );
 		document.getElementById( 'canvas' ).appendChild( container );
 
-		camera = new THREE.Camera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
+		camera = new THREE.Camera( 75, window.innerWidth / 600, 1, 3000 );
 		camera.position.x = 0;
 		camera.position.y = 0;
 		camera.position.z = 0;
@@ -157,7 +157,7 @@
 				
 
 		renderer = new THREE.CanvasRenderer();
-		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.setSize( window.innerWidth, 600 );
 		container.appendChild( renderer.domElement );
 
 		stats = new Stats();
