@@ -135,6 +135,7 @@ p {
 	
 	#header {
 		width: 100%;
+		min-width: $width;
 		height: 350px;
 		//background-color: rgba(0, 0, 0, 0.7);
 		position: absolute;
@@ -153,6 +154,8 @@ p {
 	}
 	
 	iframe {
+		width: 100%;
+		min-width: $width;
 		position: relative;
 		z-index: 10;
 	}

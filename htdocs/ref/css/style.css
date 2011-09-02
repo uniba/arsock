@@ -94,6 +94,7 @@ p {
   width: 100%; }
   #container #header {
     width: 100%;
+    min-width: 1000px;
     height: 350px;
     position: absolute;
     z-index: 100; }
@@ -105,6 +106,8 @@ p {
     font-family: Helvetica, Arial, sans-serif;
     font-weight: bold; }
   #container iframe {
+    width: 100%;
+    min-width: 1000px;
     position: relative;
     z-index: 10; }
   #container #canvas #tokyo,
