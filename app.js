@@ -17,9 +17,9 @@ var _ = underscore = require('underscore'),
 console.log(dbUrl);
 mongoose.connect(dbUrl);
 
-//process.on('uncaughtException', function (err) {
-// 	console.log(err);
-//});
+process.on('uncaughtException', function (err) {
+ 	console.log(err);
+});
 
 // Configuration
 app.configure(function() {
