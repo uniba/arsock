@@ -29,14 +29,14 @@
 		socket.on('location', function(data) {
 			log('location', data);
 			
-			if (map) {
+			/* if (map) {
 				var marker = new google.maps.Marker({
 					position: new google.maps.LatLng(data.latitude, data.longitude),
 					map: map,
 					title: data._clientId
 				}); 
 				console.log(marker);
-			}
+			} */
 		});
 		
 		socket.on('heading', function(data) {
@@ -48,7 +48,7 @@
 		animate();
 	});
 
-	google.maps.event.addDomListener(window, 'load', function() {
+	/* google.maps.event.addDomListener(window, 'load', function() {
 		var div = document.getElementById('map_canvas');
 		map = new google.maps.Map(div, {
 			zoom: 8,
@@ -56,7 +56,7 @@
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			scaleControl: true
 		});
-	});
+	}); */
 	
 	var container, stats;
 	var camera, scene, renderer, group, particle;
