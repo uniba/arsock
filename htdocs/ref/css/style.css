@@ -146,6 +146,19 @@ p {
       -o-transform: rotate(2deg);
       -ms-transform: rotate(2deg);
       transform: rotate(2deg); }
+    #container #description h4 {
+      font-size: 2em;
+      line-height: 2em; }
+      #container #description h4 a[rel~="out"] {
+        margin: 0 2px;
+        padding: 0 4px;
+        background-color: #099aff;
+        color: #ffffff;
+        font-weight: bold; }
+        #container #description h4 a[rel~="out"]:hover {
+          color: #cccccc; }
+    #container #description .txt {
+      font-style: italic; }
   #container #widget {
     width: 1000px;
     margin: 0 auto;

@@ -200,6 +200,28 @@ p {
 			padding: 2em 0;
 			@include tf(rotate(2deg));
 		}
+		
+		h4 {
+			font-size: 2em;
+			line-height: 2em;
+		
+			a[rel~="out"] {
+				margin: 0 2px;
+				padding: 0 4px;
+				background-color: #099aff;
+				color: #ffffff;
+				font-weight: bold;
+				
+				&:hover {
+					color: #cccccc;
+				}
+			}
+		}
+		
+		.txt {
+			font-style: italic;
+		}
+		
 	}
 	
 	#widget {
