@@ -6,7 +6,7 @@ var _ = underscore = require('underscore'),
 	sys = require('sys'),
 	crypto = require('crypto'),
 	redis = require('redis'),
-	redisClient = redis.createClient()
+	// redisClient = redis.createClient()
 	client = require('./lib/client.js'),
 	clients = {},
 	app = module.exports = express.createServer(),
@@ -17,9 +17,9 @@ var _ = underscore = require('underscore'),
 console.log(dbUrl);
 mongoose.connect(dbUrl);
 
-process.on('uncaughtException', function (err) {
- 	console.log(err);
-});
+//process.on('uncaughtException', function (err) {
+// 	console.log(err);
+//});
 
 // Configuration
 app.configure(function() {
@@ -66,12 +66,13 @@ app.get('/log/(:type)?', function(req, res) {
 		.gte(parseFloat(req.query.min || 0))
 		.lte(parseFloat(req.query.max || new Date().getTime() / 1000));
 	
-	if (req.query.limit) {
-		query.limit(parseInt(req.query.limit));
-	}
+	query.limit(parseInt(req.query.limit || 1000));
 	
 	query.exec(function(err, logs) {
-		res.send(logs);
+		res.send({
+			total: null,
+			result: logs
+		});
 	});
 });
 
