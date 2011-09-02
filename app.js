@@ -1,18 +1,23 @@
 var _ = underscore = require('underscore'),
 	express = require('express'),
-	socketio = require("socket.io"),
-	net = require("net"),
+	socketio = require('socket.io'),
+	mongoose = require('mongoose'),
+	net = require('net'),
 	sys = require('sys'),
 	crypto = require('crypto'),
 	client = require('./lib/client.js'),
 	clients = {},
 	app = module.exports = express.createServer(),
-	io = socketio.listen(app);
+	io = socketio.listen(app),
+	dbUrl = process.env.ARSOCK_MONGODB_URL || 'mogndb://localhost/arsock';
+	LogModel = mongoose.model('Log', new mongoose.Schema({}));
 
+console.log(dbUrl);
+mongoose.connect(dbUrl);
 
-// process.on('uncaughtException', function (err) {
-// 	console.log(err);
-// });
+process.on('uncaughtException', function (err) {
+ 	console.log(err);
+});
 
 // Configuration
 app.configure(function() {
@@ -42,7 +47,35 @@ app.get('/', function(req, res) {
 	});
 });
 
-app.listen(3001);
+app.get('/tv', function(req, res) {
+	res.render('tv', {
+		
+	});
+});
+
+app.get('/log/(:type)?', function(req, res) {
+	var query = LogModel.find({});
+	
+	if (req.query.min) {
+		query.where('timestamp').gte(req.query.min);
+	}
+	if (req.query.max) {
+		query.where('timestamp').lte(req.query.max);
+	}
+	if (req.params.type) {
+		query.where('type', req.params.type);
+	}
+	
+	query.exec(function(err, logs) {
+		res.send(logs);
+	});
+	
+	// LogModel.find({}, function(err, log) {
+		// res.send(log);
+	// });
+});
+
+app.listen(3000);
 
 // socket server
 var server = net.createServer(function(stream) {
@@ -54,12 +87,22 @@ var server = net.createServer(function(stream) {
 		delete clients[data.clientId];
 	});
 	socketClient.on('broadcast', function(data) {
-		if (!clients[data._clientId]) {
-			socketClient.emit('bye');
-		}
-		else {
+		// if (!clients[data._clientId]) {
+		// 	socketClient.emit('bye');
+		// }
+		// else {
+			var log = new LogModel();
 			io.sockets.emit(data.type, data.data);
-		}
+			
+			log.set('type', data.type);
+			log.set('clientId', data.data.clietId);
+			log.set('data', data.data);
+			log.set('timestamp', data.data._timestamp);
+			
+			log.save(function(err) {
+				console.log(err);
+			});
+		// }
 	});
 });
 
@@ -70,7 +113,7 @@ io.sockets.on('connection', function(socket) {
 	socket.emit('news', { hello: 'world' });
 	socket.on('someevent', function(data) {
 		console.log(data);
-	})
+	});
 });
 
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
