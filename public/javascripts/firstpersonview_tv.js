@@ -1,6 +1,6 @@
 -function(window, docuemnt, $, undefined) {
 	var map,
-		socket = io.connect(http://' + window.location.host);
+		socket = io.connect('http://' + window.location.host);
 	
 	socket.on('news', function(data) {
 		// console.log(data);
