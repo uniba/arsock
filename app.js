@@ -62,10 +62,10 @@ app.get('/log/(:type)?', function(req, res) {
 		query.where('type', req.params.type);
 	}	
 	if (req.query.min) {
-		query.where('timestamp').gte(parseFloat(req.query.min));
+		query.where('timestamp', parseFloat(req.query.min));
 	}
 	if (req.query.max) {
-		query.where('timestamp').lte(parseFloat(req.query.max));
+		query.where('timestamp', parseFloat(req.query.max));
 	}
 	if (req.query.limit) {
 		query.limit(req.query.limit);
