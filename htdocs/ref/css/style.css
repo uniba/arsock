@@ -94,13 +94,19 @@ p {
   width: 100%; }
   #container #header {
     width: 100%;
-    padding: 50px 0; }
+    height: 350px;
+    position: absolute;
+    z-index: 100; }
     #container #header h1 {
+      padding: 50px 0 0 0;
       text-align: center; }
   #container h2 {
     font-size: 1.5em;
     font-family: Helvetica, Arial, sans-serif;
     font-weight: bold; }
+  #container iframe {
+    position: relative;
+    z-index: 10; }
   #container #canvas #tokyo,
   #container #canvas #linz {
     width: 100%;
