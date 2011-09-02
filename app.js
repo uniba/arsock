@@ -62,10 +62,12 @@ app.get('/log/(:type)?', function(req, res) {
 		query.where('type', req.params.type);
 	}
 	
-	query.where('timestamp').gte(req.query.min || 0).lte(req.query.max || new Date().getTime() / 1000);
+	query.where('timestamp')
+		.gte(parseFloat(req.query.min || 0))
+		.lte(parseFloat(req.query.max || new Date().getTime() / 1000));
 	
 	if (req.query.limit) {
-		query.limit(req.query.limit);
+		query.limit(parseInt(req.query.limit));
 	}
 	
 	query.exec(function(err, logs) {
