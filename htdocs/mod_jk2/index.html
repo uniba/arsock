@@ -4,8 +4,9 @@
     <style type="text/css">
       html { height: 100% }
       body { height: 100%; margin: 0px; padding: 0px }
-      #tokyo, #linz { height: 100%; width: 100%; opacity: 0.5; position:absolute; top:0; left:0}
-      #streetview { height: 80%; width: 80%; position: absolute; top:10%; left: 10%}
+      #linz { height: 33%; width: 100%; opacity: 0.8; position:absolute; top:0; left:0}
+      #tokyo { height: 33%; width: 100%; opacity: 0.8; position:absolute; top:66%; left:0}
+      #streetview { height: 33%; width: 100%; opacity: 0.8;  position: absolute; top:33%; left: 0%}
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.js"></script>
     <script src="http://realtimeweblog.in:3000/socket.io/socket.io.js" type="text/javascript" charset="UTF-8"></script>
@@ -19,6 +20,7 @@
     var tokyo;
     var panorama;
     var $list;
+    var marker;
    
     function init() {
       $list = $('<ul><li></li></ul>').appendTo('body');
@@ -26,7 +28,7 @@
       // liniz
       var latlng = new google.maps.LatLng(48.309292, 14.284233);
       var opts = {
-        zoom: 16,
+        zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         center: latlng
       };
@@ -35,7 +37,7 @@
       // tokyo
       var latlng = new google.maps.LatLng(35.663411, 139.70502);
       var opts = {
-        zoom: 16,
+        zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         center: latlng
       };
@@ -54,6 +56,24 @@
       //heading();
       //move();
 
+      // marker
+      var img = 'http://www.gravatar.com/avatar/0d22cf6120bdd1f4f70e9845a2c14793?d=https://gp1.wac.edgecastcdn.net/801245/assets1.socialcast.com/images/default_avatar_square45.png&s=45';
+      marker = new google.maps.Marker({
+          position: latlng, 
+          map: linz,
+          icon:img 
+        });   
+
+      // polyline
+      polyline = new google.maps.Polyline({
+        path: [],
+        strokeColor: "#FF0000",
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+
+      polyline.setMap(linz);
+
       socket = io.connect('http://realtimeweblog.in:3000');
       socket.on('heading', function(data) {
         if(data != undefined)
@@ -65,10 +85,17 @@
       socket.on('location', function(data) {
         if(data != undefined)
         {
+        var latitude = data.latitude;
+        var longitude = data.longitude;
+        var latlng = new google.maps.LatLng(latitude, longitude);
+        marker.setPosition(latlng);
+          var path = polyline.getPath();
+          path.push(latlng);
           log('location', data);
           data.latitude += -12.645881;
           data.longitude += 125.420787;
           move(data);
+          
         }
       });
     };
@@ -95,6 +122,12 @@
         panorama.setPosition(
           latlng
         );
+
+//        var marker = new google.maps.Marker({
+ //         position: latlng, 
+  //        map: tokyo, 
+   //     });   
+
     }
 
     function log(type, data) {
