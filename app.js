@@ -5,6 +5,8 @@ var _ = underscore = require('underscore'),
 	net = require('net'),
 	sys = require('sys'),
 	crypto = require('crypto'),
+	redis = require('redis'),
+	redisClient = redis.createClient()
 	client = require('./lib/client.js'),
 	clients = {},
 	app = module.exports = express.createServer(),
@@ -103,6 +105,13 @@ var server = net.createServer(function(stream) {
 				console.log(err);
 			});
 		// }
+	//	if (!clients[data._clientId]) {
+	//		socketClient.emit('bye');
+	//	}
+	//	else {
+	//		io.sockets.emit(data.type, data.data);
+	//		redisClient.set(socketClient.clientId + ':' + data.type + ':' + data.data._timestamp, data, redis.print);
+	//	}
 	});
 });
 

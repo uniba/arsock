@@ -8,6 +8,10 @@
     , "socket.io": "0.8.x"
     , "stylus": "0.x"
     , "underscore": "1.1.x"
+<<<<<<< HEAD
     , "mongoose": "2.0.x"
+=======
+    , "redis": "0.5.x"
+>>>>>>> c2d7a4506a7111712c3dace71defc6ff9a1969e4
   }
 }
