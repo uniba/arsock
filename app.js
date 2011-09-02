@@ -57,24 +57,23 @@ app.get('/tv', function(req, res) {
 
 app.get('/log/(:type)?', function(req, res) {
 	var query = LogModel.find({});
-	
+
+	if (req.params.type) {
+		query.where('type', req.params.type);
+	}	
 	if (req.query.min) {
 		query.where('timestamp').gte(req.query.min);
 	}
 	if (req.query.max) {
 		query.where('timestamp').lte(req.query.max);
 	}
-	if (req.params.type) {
-		query.where('type', req.params.type);
+	if (req.query.limit) {
+		query.limit(req.query.limit);
 	}
 	
 	query.exec(function(err, logs) {
 		res.send(logs);
 	});
-	
-	// LogModel.find({}, function(err, log) {
-		// res.send(log);
-	// });
 });
 
 app.listen(3000);
@@ -104,14 +103,9 @@ var server = net.createServer(function(stream) {
 			log.save(function(err) {
 				console.log(err);
 			});
+			
+			// redisClient.set(socketClient.clientId + ':' + data.type + ':' + data.data._timestamp, data, redis.print);
 		// }
-	//	if (!clients[data._clientId]) {
-	//		socketClient.emit('bye');
-	//	}
-	//	else {
-	//		io.sockets.emit(data.type, data.data);
-	//		redisClient.set(socketClient.clientId + ':' + data.type + ':' + data.data._timestamp, data, redis.print);
-	//	}
 	});
 });
 
