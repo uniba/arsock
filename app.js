@@ -56,17 +56,22 @@ app.get('/tv', function(req, res) {
 });
 
 app.get('/log/(:type)?', function(req, res) {
-	var query = LogModel.find({});
+	var query = LogModel.find({}),
+		min = parseFloat(req.query.min || 0),
+		max = parseFloat(req.query.max || new Date().getTime() / 1000),
+		limit = parseInt(req.query.limit || 1000);
+		
+	console.log([min, max, limit]);
 
 	if (req.params.type) {
 		query.where('type', req.params.type);
 	}
 	
 	query.where('timestamp')
-		.gte(parseFloat(req.query.min || 0))
-		.lte(parseFloat(req.query.max || new Date().getTime() / 1000));
+		.gte(min)
+		.lte(max);
 	
-	query.limit(parseInt(req.query.limit || 1000));
+	query.limit(limit);
 	
 	query.exec(function(err, logs) {
 		res.send({
