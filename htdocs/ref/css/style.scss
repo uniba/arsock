@@ -177,7 +177,7 @@ p {
 		width: $width;
 		margin: 0 auto;
 		padding: 30px 0 36px 0;
-		border-bottom: 1px solid #eeeeee;
+		border-bottom: 1px solid #dddddd;
 		@include path("bg_end.gif");
 		background-position: right bottom;
 		background-repeat: no-repeat;
@@ -302,7 +302,7 @@ p {
 		width: $width;
 		margin: 0 auto 30px auto;
 		padding: 10px 0 30px 0;
-		border-bottom: 1px solid #eeeeee;
+		border-bottom: 1px solid #dddddd;
 		@include path("bg_end.gif");
 		background-position: right bottom;
 		background-repeat: no-repeat;
@@ -337,7 +337,7 @@ p {
 		ul {
 			width: $width;
 			padding: 10px 0 100px 0;
-			border-top: 1px solid #000000;
+			border-top: 1px solid #cccccc;
 				
 			li {
 				float: left;
