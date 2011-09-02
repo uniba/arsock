@@ -12,13 +12,8 @@
 	<link rel="stylesheet" type="text/css" href="ref/css/style.css" media="all" />
 	<script src="http://maps.google.com/maps/api/js?v=3&sensor=false" type="text/javascript" charset="UTF-8"></script>
 	<script src="ref/js/umap.js"></script>
-	<script src="http://realtimeweblog.in:3000/socket.io/socket.io.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.js"></script>
-	<script src="http://realtimeweblog.in:3000/javascripts/firstpersonview_top.js"></script>
-	<script src="http://realtimeweblog.in:3000//javascripts/Three.js"></script>
-	<script src="http://realtimeweblog.in:3000/javascripts/RequestAnimationFrame.js"></script>
-	<script src="http://realtimeweblog.in:3000/javascripts/Stats.js"></script>
 
 </head>
 <body onload="init()">
@@ -27,8 +22,7 @@
 			<div id="header">
 				<h1><img src="ref/images/h_logo2.png" width="864" height="249" alt="REALTIMEWEBLOG.IN リアルタイムウェブロギン in Linz 2011.9.1-9.5" /></h1>
 			</div>
-			<div id="canvas">
-			</div>
+			<iframe src="http://realtimeweblog.in:8000/firstpersonview/" name="canvas_frame" width="100%" height="350"></iframe>
 			<div id="description">
 				<h2><mark>Real Time Web Logging in Linz (リアルタイムウェブロギン・イン・リンツ)</mark></h2>
 				<p>Node感に注目して、新しい体験の可能性を探る実験サイト「Real Time Web Logging (リアルタイムウェブロギン)」。<br />オーストリア・リンツ市で開かれるメディアアートの祭典「アルスエレクトロニカ・フェスティバル」の開催期間に合わせて、ユニバ株式会社が公開しています。</p>
