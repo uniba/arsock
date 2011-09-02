@@ -9,6 +9,9 @@
 	
 	$(function() {
 		/* var $list = $('<ul><li></li></ul>').appendTo('body'); */
+		var $span = $('<span></span>');
+		$span.css({ display: 'block', position: 'absolute', overflow: 'hidden', bottom: 10, right: 0, width: '100%' });
+		$span.appendTo('body');
 		
 		function log(type, data) {
 			/* $list.prepend($('<li>' + type  + ': ' + JSON.stringify(data) + '</li>'));			
@@ -18,6 +21,7 @@
 			//if (console) {
 			//	console.log([type, JSON.stringify(data)]);
 			//}
+			$span.text(JSON.stringify(data));
 		}
 		
 		socket.on('ping', function(data) {
