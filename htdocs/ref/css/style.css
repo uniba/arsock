@@ -167,6 +167,21 @@ p {
     width: 1000px;
     margin: 0 auto;
     padding: 0 0 36px 0; }
+    #container #widget h4 {
+      font-size: 2em;
+      line-height: 2em; }
+      #container #widget h4 a[rel~="out"] {
+        margin: 0 2px;
+        padding: 0 4px;
+        background-color: #099aff;
+        color: #ffffff;
+        font-weight: bold; }
+        #container #widget h4 a[rel~="out"]:hover {
+          color: #cccccc; }
+      #container #widget h4 span {
+        color: #ff0000;
+        font-weight: bold;
+        font-style: italic; }
     #container #widget #flickr {
       float: left;
       width: 550px; }
