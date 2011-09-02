@@ -40,12 +40,21 @@ input {
   vertical-align: top; }
 
 a {
-  text-decoration: none;
-  color: #8a8a8a; }
+  color: #444444;
+  text-decoration: none; }
   a:hover {
-    color: #323232; }
+    color: #aaaaaa; }
   a:focus {
     outline: none; }
+
+a[rel~="out"] {
+  margin: 0 2px;
+  padding: 0 4px;
+  background-color: #e91a94;
+  color: #ffffff;
+  font-weight: bold; }
+  a[rel~="out"]:hover {
+    color: #cccccc; }
 
 p {
   margin: 0;
@@ -73,9 +82,13 @@ table td {
 
 body {
   color: #333333;
-  font-size: 1.3em;
+  background-color: #f5f5f5;
+  font-size: 0.85em;
   line-height: 1.5em;
   font-family: "ＭＳ Ｐゴシック", Osaka, "ヒラギノ角ゴ Pro W3"; }
+
+p {
+  margin: 0 0 1em 0; }
 
 #container {
   width: 100%; }
@@ -86,7 +99,12 @@ body {
     position: relative;
     z-index: 100; }
     #container #header h1 {
-      text-align: center; }
+      text-align: center;
+      display: none; }
+  #container h2 {
+    font-size: 1.5em;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold; }
   #container #canvas #tokyo,
   #container #canvas #linz {
     width: 100%;
@@ -104,9 +122,25 @@ body {
   #container #description {
     width: 1000px;
     margin: 0 auto;
-    padding: 20px 0 36px 0; }
+    padding: 30px 0 36px 0;
+    border-bottom: 1px solid #eeeeee;
+    background-image: url(../images/bg_end.gif);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+    -webkit-transform: rotate(-2deg);
+    -moz-transform: rotate(-2deg);
+    -o-transform: rotate(-2deg);
+    -ms-transform: rotate(-2deg);
+    transform: rotate(-2deg); }
     #container #description h2 {
       padding: 0 0 20px 0; }
+    #container #description .normal {
+      padding: 2em 0;
+      -webkit-transform: rotate(2deg);
+      -moz-transform: rotate(2deg);
+      -o-transform: rotate(2deg);
+      -ms-transform: rotate(2deg);
+      transform: rotate(2deg); }
   #container #widget {
     width: 1000px;
     margin: 0 auto;
@@ -161,46 +195,83 @@ body {
         padding: 0 10px; }
   #container #information {
     width: 1000px;
-    margin: 0 auto;
+    margin: 50px auto 0 auto;
     padding: 10px 0 30px 0; }
     #container #information h2 {
-      padding: 0 0 20px 0; }
+      padding: 0 0 30px 0;
+      text-align: right;
+      -webkit-transform: rotate(2deg);
+      -moz-transform: rotate(2deg);
+      -o-transform: rotate(2deg);
+      -ms-transform: rotate(2deg);
+      transform: rotate(2deg); }
+    #container #information h3 {
+      margin: 0 0 1em 0; }
+      #container #information h3 span {
+        background-color: #31dee9;
+        font-weight: bold; }
+    #container #information p {
+      padding: 0 0 0 333.333px; }
+    #container #information .detail {
+      padding: 24px 0 0 0;
+      -webkit-transform: rotate(-1deg);
+      -moz-transform: rotate(-1deg);
+      -o-transform: rotate(-1deg);
+      -ms-transform: rotate(-1deg);
+      transform: rotate(-1deg); }
     #container #information .space {
       float: left;
       width: 550px; }
     #container #information .schedule {
       float: left;
       width: 414px;
-      padding: 0 0 0 36px; }
+      padding: 24px 0 0 36px; }
     #container #information ul {
       padding: 10px 0; }
+      #container #information ul li {
+        font-style: italic; }
     #container #information dl {
-      padding: 10px 0;
-      font-size: 0.9em; }
+      padding: 10px 0; }
       #container #information dl dt {
         font-weight: bold; }
+      #container #information dl dd {
+        padding: 0 0 1em 1em;
+        font-style: italic; }
   #container #access {
     width: 1000px;
-    margin: 0 auto;
-    padding: 10px 0 30px 0; }
+    margin: 0 auto 30px auto;
+    padding: 10px 0 30px 0;
+    border-bottom: 1px solid #eeeeee;
+    background-image: url(../images/bg_end.gif);
+    background-position: right bottom;
+    background-repeat: no-repeat; }
+    #container #access h3 {
+      margin: 0 0 1em 0; }
+      #container #access h3 span {
+        background-color: #31dee9;
+        font-weight: bold; }
     #container #access #map {
       float: left;
       width: 550px;
       height: 314px; }
-    #container #access dl {
+    #container #access .place {
       float: left;
       width: 414px;
       padding: 0 0 0 36px;
-      font-size: 0.9em; }
-      #container #access dl dt {
-        font-weight: bold; }
+      -webkit-transform: rotate(-2deg);
+      -moz-transform: rotate(-2deg);
+      -o-transform: rotate(-2deg);
+      -ms-transform: rotate(-2deg);
+      transform: rotate(-2deg); }
   #container #social {
     width: 1000px;
     margin: 0 auto; }
     #container #social ul {
       width: 1000px;
       padding: 10px 0 100px 0;
-      border-top: 5px solid #000000; }
+      border-top: 1px solid #000000; }
       #container #social ul li {
         float: left;
-        padding: 0 40px 0 0; }
+        padding: 0 40px 0 0;
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: lighter; }
