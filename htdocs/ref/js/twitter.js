@@ -1,7 +1,7 @@
 new TWTR.Widget({
   version: 2,
   type: 'search',
-  search: 'Ars Electronica',
+  search: '#realtimewebloggin',
   interval: 30000,
   title: 'Ars Electronica in Linz &amp; Tokyo',
   subject: 'Real Time Web Logging',
