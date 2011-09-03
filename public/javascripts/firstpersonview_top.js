@@ -1,29 +1,29 @@
 -function(window, docuemnt, $, undefined) {
 	var map,
 		socket = io.connect('http://realtimeweblog.in:3000');
-	
+
 	socket.on('news', function(data) {
 		// console.log(data);
 		socket.emit('someevent', { my: 'data' });
 	});
-	
+
 	$(function() {
 		/* var $list = $('<ul><li></li></ul>').appendTo('body'); */
 		var $span = $('<span></span>');
 		$span.css({ display: 'block', position: 'absolute', overflow: 'hidden', bottom: 10, right: 0, width: '100%' });
 		$span.appendTo('body');
-		
+
 		function log(type, data) {
-			/* $list.prepend($('<li>' + type  + ': ' + JSON.stringify(data) + '</li>'));			
+			/* $list.prepend($('<li>' + type  + ': ' + JSON.stringify(data) + '</li>'));
 			if ($list.find('li').length > 10) {
 				$list.find('li').last().remove();
-			} */ 
+			} */
 			//if (console) {
 			//	console.log([type, JSON.stringify(data)]);
 			//}
 			$span.text(JSON.stringify(data));
 		}
-		
+
 		socket.on('ping', function(data) {
 			log('ping', data);
 		});
@@ -32,22 +32,22 @@
 		});
 		socket.on('location', function(data) {
 			log('location', data);
-			
+
 			if (map) {
 				var marker = new google.maps.Marker({
 					position: new google.maps.LatLng(data.latitude, data.longitude),
 					map: map,
 					title: data._clientId
-				}); 
+				});
 				console.log(marker);
 			}
 		});
-		
+
 		socket.on('heading', function(data) {
 			log('heading', data);
 			setRotate( data );
 		});
-		
+
 		init();
 		animate();
 	});
@@ -58,10 +58,11 @@
 			zoom: 8,
 			center: new google.maps.LatLng(48.309659, 14.284415),
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			scaleControl: true
+			scaleControl: true,
+			scrollwheel: false
 		});
 	});
-	
+
 	var container, stats;
 	var camera, scene, renderer, group, particle;
 	var mouseX = 0, mouseY = 0;
@@ -72,7 +73,7 @@
 
 	var windowHalfX = window.innerWidth / 2;
 	var windowHalfY = 350 / 2;
-	
+
 	function init() {
 
 		container = document.createElement( 'div' );
@@ -112,7 +113,7 @@
 				}
 			}
 		}
-		
+
 		/*
 		// particles
 
@@ -146,7 +147,7 @@
 					particle.position.multiplyScalar( 10 + 450 );
 					particle.scale.x = particle.scale.y = 5;
 					scene.addObject( particle );
-					
+
 
 					geometry.vertices.push( new THREE.Vertex( particle.position ) );
 				}
@@ -158,7 +159,7 @@
 		var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 0.5 } ) );
 		scene.addObject( line );
 		*/
-				
+
 
 		renderer = new THREE.CanvasRenderer();
 		renderer.setSize( window.innerWidth, 350 );
@@ -214,16 +215,16 @@
 		// stats.update();
 
 	}
-	
+
 	function setRotate( data ) {
 		//console.log(['setrotate', data.trueHeading/Math.PI*2]);
 		camera.target.position.x = Math.sin(data.trueHeading/(Math.PI*16)) * camTargetDistance;
 		camera.target.position.z = Math.cos(data.trueHeading/(Math.PI*16)) * camTargetDistance;
-		
+
 		camera.position.x = data.x;
 		camera.position.y = data.y;
 		camera.position.z = data.z;
-		
+
 		renderer.render( scene, camera );
 	}
 
