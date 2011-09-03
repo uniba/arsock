@@ -3,7 +3,7 @@ function photo_search ( param ) {
     // APIリクエストパラメタの設定
     param.api_key  = '2c9510f47c9fcfe73c451013e5f38014';
     param.method   = 'flickr.photos.search';
-    param.per_page = 10;
+    param.per_page = 2000;
     param.sort     = 'date-posted-desc';
     param.format   = 'json';
     param.jsoncallback = 'jsonFlickrApi';
