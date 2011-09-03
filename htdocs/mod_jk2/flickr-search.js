@@ -42,6 +42,7 @@ function obj2query ( obj ) {
 // Flickr検索終了後のコールバック関数
 function jsonFlickrApi ( data ) {
     // データが取得できているかチェック
+    console.log(JSON.stringify(data));
     if ( ! data ) return;
     if ( ! data.photos ) return;
     var list = data.photos.photo;
@@ -64,7 +65,7 @@ function jsonFlickrApi ( data ) {
         // img 要素の生成
         var img = document.createElement( 'img' );
         img.src = 'http://static.flickr.com/'+photo.server+
-                  '/'+photo.id+'_'+photo.secret+'_s.jpg';
+                  '/'+photo.id+'_'+photo.secret+'.jpg';
         img.style.border = '0';
         atag.appendChild( img );
         div.appendChild( atag );

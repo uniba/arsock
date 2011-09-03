@@ -4,9 +4,9 @@
     <style type="text/css">
       html { height: 100% }
       body { height: 100%; margin: 0px; padding: 0px }
-      #linz { height: 33%; width: 100%; opacity: 0.8; position:absolute; top:0; left:0}
-      #tokyo { height: 33%; width: 100%; opacity: 0.8; position:absolute; top:66%; left:0}
-      #streetview { height: 33%; width: 100%; opacity: 0.8;  position: absolute; top:33%; left: 0%}
+      #linz { height: 100%; width: 33%; opacity: 0.8; position:absolute; top:0; left:0}
+      #tokyo { height: 100%; width: 33%; opacity: 0.8; position:absolute; top:0%; left:66%}
+      #streetview { height: 100%; width: 33%; opacity: 0.8;  position: absolute; top:0%; left: 33%}
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.js"></script>
     <script src="http://realtimeweblog.in:3000/socket.io/socket.io.js" type="text/javascript" charset="UTF-8"></script>
@@ -21,14 +21,14 @@
     var panorama;
     var $list;
     var marker;
-   
+    var zoom = 13; 
     function init() {
       $list = $('<ul><li></li></ul>').appendTo('body');
 
       // liniz
       var latlng = new google.maps.LatLng(48.309292, 14.284233);
       var opts = {
-        zoom: 15,
+        zoom: zoom,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         center: latlng
       };
@@ -37,7 +37,7 @@
       // tokyo
       var latlng = new google.maps.LatLng(35.663411, 139.70502);
       var opts = {
-        zoom: 15,
+        zoom: zoom,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         center: latlng
       };
@@ -122,12 +122,6 @@
         panorama.setPosition(
           latlng
         );
-
-//        var marker = new google.maps.Marker({
- //         position: latlng, 
-  //        map: tokyo, 
-   //     });   
-
     }
 
     function log(type, data) {
@@ -135,11 +129,7 @@
         if ($list.find('li').length > 10) {
             $list.find('li').last().remove();
         }
-        if (console) {
-//            console.log([type, JSON.stringify(data)]);
-        }
     }
-		
 
     //]]>
     </script>
