@@ -55,7 +55,7 @@
 	google.maps.event.addDomListener(window, 'load', function() {
 		var div = document.getElementById('map_canvas');
 		map = new google.maps.Map(div, {
-			zoom: 8,
+			zoom: 15,
 			center: new google.maps.LatLng(48.309659, 14.284415),
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			scaleControl: true,
