@@ -51,7 +51,7 @@ app.get('/', function(req, res) {
 
 app.get('/tv', function(req, res) {
 	res.render('tv', {
-		
+
 	});
 });
 
@@ -59,25 +59,24 @@ app.get('/log/(:type)?', function(req, res) {
 	var query = LogModel.find({}),
 		min = parseFloat(req.query.min || 0),
 		max = parseFloat(req.query.max || new Date().getTime() / 1000),
-		limit = parseInt(req.query.limit || 1000);
-		
+		limit = parseInt(req.query.limit || 1000),
+		callback = req.query.callback;
+
 	console.log([min, max, limit]);
 
 	if (req.params.type) {
 		query.where('type', req.params.type);
 	}
-	
+
 	query.where('timestamp')
 		.gte(min)
 		.lte(max);
-	
+
 	query.limit(limit);
-	
+
 	query.exec(function(err, logs) {
-		res.send({
-			total: null,
-			result: logs
-		});
+		var data = {total: null, result: logs};
+		res.send(callback ? callback + '(' + JSON.stringify(data) + ')' : data);
 	});
 });
 
@@ -99,16 +98,16 @@ var server = net.createServer(function(stream) {
 		// else {
 			var log = new LogModel();
 			io.sockets.emit(data.type, data.data);
-			
+
 			log.set('type', data.type);
 			log.set('clientId', data.data.clietId);
 			log.set('data', data.data);
 			log.set('timestamp', data.data._timestamp);
-			
+
 			log.save(function(err) {
 				console.log(err);
 			});
-			
+
 			// redisClient.set(socketClient.clientId + ':' + data.type + ':' + data.data._timestamp, data, redis.print);
 		// }
 	});
