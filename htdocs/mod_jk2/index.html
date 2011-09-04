@@ -22,7 +22,9 @@
     var panorama;
     var $list;
     var marker;
-    var zoom = 12; 
+    var zoom = 12;
+    var latitude_offset = -12.645881;
+    var longitude_offset = 125.420787;
 
     function init() {
       $list = $('<ul><li></li></ul>').appendTo('body');
@@ -44,7 +46,30 @@
         center: latlng
       };
       tokyo = new google.maps.Map(document.getElementById("tokyo"), opts);
-
+      var flag = false;
+      // map synchronization event
+      google.maps.event.addListener(linz, 'zoom_changed', function() {
+        if(tokyo.getZoom() != linz.getZoom())
+        tokyo.setZoom(linz.getZoom());
+      });
+      google.maps.event.addListener(linz, 'center_changed', function() {
+       if(flag) { flag = false; return; }
+       var latlng = linz.getCenter();
+       var center = new google.maps.LatLng(latlng.lat() + latitude_offset, latlng.lng() + longitude_offset);
+       flag = true;
+       tokyo.setCenter(center);
+      });
+      google.maps.event.addListener(tokyo, 'zoom_changed', function() {
+        if(tokyo.getZoom() != linz.getZoom())
+          linz.setZoom(tokyo.getZoom());}
+      );
+      google.maps.event.addListener(tokyo, 'center_changed', function() {
+       if(flag) { flag = false; return; }
+       var latlng = tokyo.getCenter();
+       var center = new google.maps.LatLng(latlng.lat() - latitude_offset, latlng.lng() - longitude_offset);
+       flag = true;
+       linz.setCenter(center);
+      });
       // streetview
       var panoramaOptions = {
         position: latlng,
@@ -205,8 +230,7 @@
             zindex: 0,
             map: tokyo
           });
-          google.maps.event.addListener(marker, 'click', function() { window.open(pageurl, 'flickr'); });
-          google.maps.event.addListener(marker, 'mouseover', function() { console.log('mouseover' + (this.describe)); this.scaledSize = new google.maps.Size(40, 40); });
+          google.maps.event.addListener(marker, 'click', function(event) { window.open(pageurl, 'flickr'); });
           google.maps.event.addListener(marker_tokyo, 'click', function() { window.open(pageurl, 'flickr'); });
           //$flickr.prepend($('<img src="' + imgurl  + '" />'));			
         }
