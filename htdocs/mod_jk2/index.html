@@ -4,9 +4,10 @@
     <style type="text/css">
       html { height: 100% }
       body { height: 100%; margin: 0px; padding: 0px }
-      #linz { height: 100%; width: 33%; opacity: 0.8; position:absolute; top:0; left:0}
-      #tokyo { height: 100%; width: 33%; opacity: 0.8; position:absolute; top:0%; left:66%}
-      #streetview { height: 100%; width: 33%; opacity: 0.8;  position: absolute; top:0%; left: 33%}
+      #linz { height: 50%; width: 50%; opacity: 1; position:absolute; top:0; left:50%}
+      #tokyo { height: 50%; width: 50%; opacity: 1; position:absolute; top:50%; left:50%}
+      #streetview { height: 100%; width: 50%; opacity: 0.8;  position: absolute; top:0%; left: 0%}
+      #flickr { position: absolute; top:100%; left: 0%}
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.js"></script>
     <script src="http://realtimeweblog.in:3000/socket.io/socket.io.js" type="text/javascript" charset="UTF-8"></script>
@@ -21,7 +22,8 @@
     var panorama;
     var $list;
     var marker;
-    var zoom = 13; 
+    var zoom = 12; 
+
     function init() {
       $list = $('<ul><li></li></ul>').appendTo('body');
 
@@ -43,6 +45,7 @@
       };
       tokyo = new google.maps.Map(document.getElementById("tokyo"), opts);
 
+      // streetview
       var panoramaOptions = {
         position: latlng,
         pov: {
@@ -53,27 +56,65 @@
       };
       panorama = new google.maps.StreetViewPanorama(document.getElementById("streetview"), panoramaOptions);
       tokyo.setStreetView(panorama);
-      //heading();
-      //move();
+
+      // flickr 
+      var apikey = "2c9510f47c9fcfe73c451013e5f38014";
+      var userid = "66914673@N05";
+
+      flickr_init(apikey, userid);
 
       // marker
       var img = 'http://www.gravatar.com/avatar/0d22cf6120bdd1f4f70e9845a2c14793?d=https://gp1.wac.edgecastcdn.net/801245/assets1.socialcast.com/images/default_avatar_square45.png&s=45';
       marker = new google.maps.Marker({
           position: latlng, 
-          map: linz,
-          icon:img 
+          //icon:img 
+          map: linz
         });   
 
       // polyline
       polyline = new google.maps.Polyline({
         path: [],
-        strokeColor: "#FF0000",
-        strokeOpacity: 1.0,
-        strokeWeight: 2
+        strokeColor: "#FF00FF",
+        strokeOpacity: 0.75,
+        strokeWeight: 5 
       });
 
       polyline.setMap(linz);
 
+      // archived location
+      archivepolyline = new google.maps.Polyline({
+        path: [],
+        strokeColor: "#0000FF",
+        strokeOpacity: 0.5,
+        strokeWeight: 5 
+      });
+
+      archivepolyline.setMap(linz);
+      min = new Date().getTime() - 8 * 60 * 60 * 1000;
+      min /= 1000;
+      $.get('http://realtimeweblog.in/log/location?min=' + min + '&limit=10000', function(data) {
+        if(data != undefined)
+        {
+          $.each(data.result, function(index, result) {
+            if(result.data != undefined)
+            {
+              log('location', result.data);
+              var latitude = result.data.latitude;
+              var longitude = result.data.longitude;
+              var latlng = new google.maps.LatLng(latitude, longitude);
+              var path = archivepolyline.getPath();
+              path.push(latlng);
+              marker.setPosition(latlng);
+              result.data.latitude += -12.645881;
+              result.data.longitude += 125.420787;
+              move(result.data);
+
+            } 
+          });
+        }
+      });
+
+      // socket
       socket = io.connect('http://realtimeweblog.in:3000');
       socket.on('heading', function(data) {
         if(data != undefined)
@@ -100,12 +141,8 @@
       });
     };
 
-    var count = 0;
-    var timerId;
     function heading(data) {
-        console.log(JSON.stringify(data));
         var heading = data.trueHeading;
-        console.log(heading);
         panorama.setPov(
           {
             heading: heading,
@@ -131,6 +168,51 @@
         }
     }
 
+    function flickr_init(key, id) {
+      var req_url = "http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=" + key + "&user_id=" + id + "&sort=date-taken-desc&extras=geo,date_taken,owner_name&per_page=1000&page=1&format=json&jsoncallback=flickr_callback";
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = req_url;
+      document.getElementsByTagName("head")[0].appendChild(script);
+      return;
+    }
+
+    function flickr_callback(data) {
+      $flickr = $('#flickr');
+      $.each(data.photos.photo, function(index, photo) {
+        console.log(JSON.stringify(photo));
+        if(photo.latitude != 0 && photo.longitude != 0)
+        {
+          var title = photo.title + " id:" + photo.id + ' date:' + photo.datetaken;
+          var latlng = new google.maps.LatLng(photo.latitude, photo.longitude);
+          var imgurl = 'http://static.flickr.com/' + photo.server +'/'+ photo.id + '_' + photo.secret + '_s.jpg';
+          var markerimage = new google.maps.MarkerImage(imgurl);
+          markerimage.scaledSize = new google.maps.Size(20,20);
+          markerimage.anchor = new google.maps.Point(10,10);
+          var pageurl = 'http://www.flickr.com/photos/' + photo.owner + '/' + photo.id + '/';
+
+          var marker = new google.maps.Marker({
+            title: title,
+            position: latlng, 
+            icon: markerimage,
+            zindex: 0,
+            map: linz
+          });
+          var marker_tokyo = new google.maps.Marker({
+            title: title,
+            position: latlng,
+            icon: markerimage,
+            zindex: 0,
+            map: tokyo
+          });
+          google.maps.event.addListener(marker, 'click', function() { window.open(pageurl, 'flickr'); });
+          google.maps.event.addListener(marker, 'mouseover', function() { console.log('mouseover' + (this.describe)); this.scaledSize = new google.maps.Size(40, 40); });
+          google.maps.event.addListener(marker_tokyo, 'click', function() { window.open(pageurl, 'flickr'); });
+          //$flickr.prepend($('<img src="' + imgurl  + '" />'));			
+        }
+      });
+    }
+
     //]]>
     </script>
   </head>
@@ -138,5 +220,6 @@
     <div id="tokyo"></div>
     <div id="linz"></div>
     <div id="streetview"></div>
+    <div id="flickr"></div>
   </body>
 </html>

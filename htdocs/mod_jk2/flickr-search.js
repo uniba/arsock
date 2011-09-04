@@ -42,7 +42,7 @@ function obj2query ( obj ) {
 // Flickr検索終了後のコールバック関数
 function jsonFlickrApi ( data ) {
     // データが取得できているかチェック
-    console.log(JSON.stringify(data));
+    console.log(data);
     if ( ! data ) return;
     if ( ! data.photos ) return;
     var list = data.photos.photo;
