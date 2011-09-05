@@ -1,6 +1,5 @@
 -function(window, docuemnt, $, undefined) {
-	var map,
-		socket = io.connect('http://realtimeweblog.in:3000');
+	var socket = io.connect('http://realtimeweblog.in:3000');
 
 	socket.on('news', function(data) {
 		// console.log(data);
@@ -9,6 +8,7 @@
 
 	$(function() {
 		/* var $list = $('<ul><li></li></ul>').appendTo('body'); */
+        	var map = $('#map_canvas').arsmap().data('arsmap-api');
 		var $span = $('<span></span>');
 		$span.css({ display: 'block', position: 'absolute', overflow: 'hidden', bottom: 10, right: 0, width: '100%' });
 		$span.appendTo('body');
@@ -32,15 +32,7 @@
 		});
 		socket.on('location', function(data) {
 			log('location', data);
-
-			if (map) {
-				var marker = new google.maps.Marker({
-					position: new google.maps.LatLng(data.latitude, data.longitude),
-					map: map,
-					title: data._clientId
-				});
-				console.log(marker);
-			}
+			map.mark(data);
 		});
 
 		socket.on('heading', function(data) {
@@ -52,16 +44,7 @@
 		animate();
 	});
 
-	google.maps.event.addDomListener(window, 'load', function() {
-		var div = document.getElementById('map_canvas');
-		map = new google.maps.Map(div, {
-			zoom: 15,
-			center: new google.maps.LatLng(48.309659, 14.284415),
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			scaleControl: true,
-			scrollwheel: false
-		});
-	});
+
 
 	var container, stats;
 	var camera, scene, renderer, group, particle;
