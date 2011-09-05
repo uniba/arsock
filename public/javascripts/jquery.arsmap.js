@@ -42,27 +42,40 @@
         }
       }
     });
-    this.icons = {};
+    this.clients = {};
     this.buffer = [];
   };
 
   ARSMap.prototype.mark = function(data) {
     var that = this;
+    var client;
     if (!this.map) {
       this.buffer.push(data);
       return;
     }
-    if (!(data._clientId in this.icons)) {
-      this.icons[data._clientId] = generateIcon();
-      this.legend.append('<p><img width="15" src="' + this.icons[data._clientId] + '"/>' + (data.nickname || data._clientId.slice(0, 5) + '...') + '</p>');
+    if (!(data._clientId in this.clients)) {
+      this.clients[data._clientId] = {clientId: data._clientId, nickname: data.nickname, iconURL: generateIcon()};
+      this.legend.append(this._generateLegend(data._clientId));
     }
-    var icon = this.icons[data._clientId];
+    client = this.clients[data._clientId];
+    client.lat = data.latitude;
+    client.lng = data.longitude;
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(data.latitude, data.longitude),
       map: that.map,
       title: data._clientId,
-      icon: icon
+      icon: client.iconURL
     });
+  };
+
+  ARSMap.prototype._generateLegend = function(clientId) {
+    var that = this;
+    var client = this.clients[clientId];
+    var $elem = $('<p><img width="15" src="' + client.iconURL + '"/>' + (client.nickname || client.clientId.slice(0, 5) + '...') + '</p>');
+    $elem.bind('click', function(e) {
+      that.map.panTo(new google.maps.LatLng(client.lat, client.lng));
+    });
+    return $elem;
   };
 
   $.fn.arsmap = function(options) {
