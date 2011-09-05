@@ -73,7 +73,7 @@ app.get('/log/(:type)?', function(req, res) {
 		.lte(max);
 
 	query.limit(limit);
-
+	query.sort({ timestamp: -1});
 	query.exec(function(err, logs) {
 		var data = {total: null, result: logs};
 		res.send(callback ? callback + '(' + JSON.stringify(data) + ')' : data);
