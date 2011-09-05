@@ -17,7 +17,6 @@
     params = $.extend({}, $.fn.arsmap.defaults, params || {});
 
     google.maps.event.addDomListener(window, 'load', function() {
-      console.log('load');
       that.map = new google.maps.Map(element, {
         zoom: params.zoom,
 	center: new google.maps.LatLng(48.309659, 14.284415),
@@ -33,7 +32,6 @@
       dataType: 'jsonp'
     })
     .success(function(data) {
-      console.log('success');
       for (var i = 0, len = data.result.length; i < len; i++) {
         if (that.map) {
           that.map.mark(data.result[i].data);
