@@ -13,6 +13,7 @@
   var ARSMap = function(element, params) {
     var that = this;
     var data;
+    var $legend = $('<div class="legend"/>');
 
     params = $.extend({}, $.fn.arsmap.defaults, params || {});
 
@@ -24,6 +25,7 @@
 	scaleControl: true,
         scrollwheel: false
       });
+      that.legend = $legend.appendTo(element);
       while (data = that.buffer.shift()) {
         that.mark(data.data);
       }
@@ -52,6 +54,7 @@
     }
     if (!(data._clientId in this.icons)) {
       this.icons[data._clientId] = generateIcon();
+      this.legend.append('<p><img width="15" src="' + this.icons[data._clientId] + '"/>' + (data.nickname || data._clientId.slice(0, 5) + '...') + '</p>');
     }
     var icon = this.icons[data._clientId];
     var marker = new google.maps.Marker({
