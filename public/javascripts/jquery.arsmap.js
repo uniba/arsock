@@ -1,6 +1,6 @@
 (function($) {
 
-  var COLORS = ['pink','red', 'yellow', 'purple', 'green', 'blue'];
+  var COLORS = ['pink','red', 'yellow', 'purple', 'green', 'blue', 'ltblue'];
 
   var generateIcon = (function() {
     var i = 0;
@@ -26,7 +26,7 @@
         scrollwheel: false
       });
       that.legend = $legend.appendTo(element);
-      while (data = that.buffer.shift()) {
+      while (data = that.buffer.pop()) {
         that.mark(data.data);
       }
     });
@@ -60,10 +60,11 @@
     client = this.clients[data._clientId];
     client.lat = data.latitude;
     client.lng = data.longitude;
+    var date = new Date(parseInt(data._timestamp * 1000, 10));
     var marker = new google.maps.Marker({
       position: new google.maps.LatLng(data.latitude, data.longitude),
       map: that.map,
-      title: data._clientId,
+      title: date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(),
       icon: client.iconURL
     });
   };
@@ -87,7 +88,7 @@
 
   $.fn.arsmap.defaults = {
     url: 'http://realtimeweblog.in:3000/log/',
-    limit: 100,
+    limit: 1000,
     zoom: 15
   };
 
