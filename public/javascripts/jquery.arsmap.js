@@ -34,7 +34,7 @@
     .success(function(data) {
       for (var i = 0, len = data.result.length; i < len; i++) {
         if (that.map) {
-          that.map.mark(data.result[i].data);
+          that.mark(data.result[i].data);
         } else {
           that.buffer.push(data.result[i]);
         }
