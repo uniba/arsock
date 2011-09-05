@@ -1,15 +1,11 @@
 -function(window, docuemnt, $, undefined) {
 	var socket = io.connect('http://realtimeweblog.in:3000');
 
-	socket.on('news', function(data) {
-		// console.log(data);
-		socket.emit('someevent', { my: 'data' });
-	});
-
 	$(function() {
-		/* var $list = $('<ul><li></li></ul>').appendTo('body'); */
         	var map = $('#map_canvas').arsmap().data('arsmap-api');
 		var $span = $('<span></span>');
+		var firstPersonClientId;
+
 		$span.css({ display: 'block', position: 'absolute', overflow: 'hidden', bottom: 10, right: 0, width: '100%' });
 		$span.appendTo('body');
 
@@ -36,8 +32,11 @@
 		});
 
 		socket.on('heading', function(data) {
-			log('heading', data);
-			setRotate( data );
+			firstPersonClientId = firstPersonClientId || data._clientId;
+			if (firstPersonClientId === data._clientId) {
+				log('heading', data);
+				setRotate( data );
+			}
 		});
 
 		init();
