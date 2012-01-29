@@ -21,20 +21,20 @@ __arsock__ is socket server for arsapp. arsock provides storing sensed data and 
     $ brew install mongodb
     $ mongod run --config /path/to/mongod.conf
 
-#### Install Node v0.4.7 (using nave)
+#### Install Node (using nave)
 
     $ nave install 0.6.9
-    $ nave use 0.4.9
+    $ nave use 0.6.9
 
 #### Grab code and resolving module dependencies.
 
     $ git clone git@github.com:uniba/arsock.git
     $ cd arsock
-    $ npm instal;
+    $ npm install
 
 #### Run
     
-    $ ARSOCK_MONGODB_URI=mongodb://localhost/utropy node web
+    $ ARSOCK_MONGODB_URI=mongodb://localhost/utropy node app
 
 ## Deployment
 
