@@ -1,6 +1,6 @@
 # arsock
 
-__arsock__ is socket server for arsapp. arsock provides storing sensed data and accessing data for some visialization.
+__arsock__ is socket server for [arsapp](https://github.com/uniba/arsapp). arsock provides storing sensed data and accessing data for some visialization.
 
 ## Authors
 
