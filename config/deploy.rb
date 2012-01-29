@@ -24,6 +24,7 @@ namespace :deploy do
 end
 
 after "deploy:symlink", :roles => :app do
+  run "ln -svf #{shared_path}/archives #{current_path}/public/archives"
   run "ln -svf #{shared_path}/node_modules #{current_path}/node_modules"
   run "cd #{current_path} && npm install"
 end
