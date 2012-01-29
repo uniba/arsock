@@ -5,7 +5,7 @@ __arsock__ is socket server for arsapp. arsock provides storing sensed data and 
 ## Authors
 
   - Seiya Konno &lt;seiya@uniba.jp&gt; ([nulltask](https://github.com/nulltask))
-  - Haruma Kikuchi &lt;haruma@uniba.jp&gt; ([norhythm](https://github.com/kikuchiharuma))
+  - Haruma Kikuchi &lt;haruma@uniba.jp&gt; ([kikuchiharuma](https://github.com/kikuchiharuma))
   - hitsujiwool ([hitsujiwool](https://github.com/hitsujiwool))
 
 ## Requirement
