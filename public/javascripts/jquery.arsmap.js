@@ -87,7 +87,7 @@
   };
 
   $.fn.arsmap.defaults = {
-    url: 'http://realtimeweblog.in:3000/log/',
+    url: '/log/',
     limit: 1000,
     zoom: 15
   };

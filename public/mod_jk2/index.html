@@ -10,7 +10,7 @@
       #flickr { position: absolute; top:100%; left: 0%}
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.js"></script>
-    <script src="http://realtimeweblog.in:3000/socket.io/socket.io.js" type="text/javascript" charset="UTF-8"></script>
+    <script src="/socket.io/socket.io.js" type="text/javascript" charset="UTF-8"></script>
     <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"
         type="text/javascript" charset="UTF-8"></script>
 
@@ -117,7 +117,7 @@
       archivepolyline.setMap(linz);
       min = new Date().getTime() - 8 * 60 * 60 * 1000;
       min /= 1000;
-      $.get('http://realtimeweblog.in/log/location?min=' + min + '&limit=10000', function(data) {
+      $.get('/log/location?min=' + min + '&limit=10000', function(data) {
         if(data != undefined)
         {
           $.each(data.result, function(index, result) {
@@ -140,7 +140,7 @@
       });
 
       // socket
-      socket = io.connect('http://realtimeweblog.in:3000');
+      socket = io.connect();
       socket.on('heading', function(data) {
         if(data != undefined)
         {

@@ -1,5 +1,5 @@
 -function(window, docuemnt, $, undefined) {
-	var socket = io.connect('http://realtimeweblog.in:3000');
+	var socket = io.connect();
 
 	$(function() {
         	var map = $('#map_canvas').arsmap().data('arsmap-api');
