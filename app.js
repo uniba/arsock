@@ -33,7 +33,7 @@ app.configure('production', config.production);
  * Routes.
  */
 
-app.get('/', routes.index);
+// app.get('/', routes.index);
 app.get('/tv', routes.tv);
 app.get('/log/(:type)?', routes.log);
 
