@@ -34,7 +34,7 @@ __arsock__ is socket server for [arsapp](https://github.com/uniba/arsapp). arsoc
 
 #### Run
     
-    $ ARSOCK_MONGODB_URI=mongodb://localhost/utropy node app
+    $ ARSOCK_MONGODB_URI=mongodb://localhost/arsock node app
 
 ## Deployment
 
