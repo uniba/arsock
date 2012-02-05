@@ -17,11 +17,20 @@ var express = require('express')
  */
 
 function stream() {
-  Log.find({}).exec(function(err, doc) {
-    doc.forEach(function(el, n) {
+  var limit = 1000;
+  
+  Log.find({}).count(function(err, num) {
+    var offset = Math.floor(Math.random() * (num - limit));
+    
+    Log.find({}).limit(limit).skip(offset).exec(function(err, doc) {
+      doc.forEach(function(el, n) {
+        setTimeout(function() {
+          io.sockets.emit(el.type, el.data);
+        }, n * 500);
+      });
       setTimeout(function() {
-        io.sockets.emit(el.type, el.data);
-      }, n * 500);
+        stream();
+      }, doc.length * 500);
     });
   });
 }
