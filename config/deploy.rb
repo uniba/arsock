@@ -8,6 +8,8 @@ set :deploy_to, "/home/#{user}/app/#{application}"
 set :deploy_via, :copy
 set :git_shallow_clone, 1
 
+default_environment['NODE_ENV'] = 'production'
+
 role :web, "realtimeweblog.in"
 role :app, "realtimeweblog.in"
 
