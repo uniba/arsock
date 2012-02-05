@@ -3,12 +3,12 @@
  */
 
 var express = require('express')
-  , mongoose = require('mongoose')
   , app = module.exports = express.createServer()
   , config = require('./config')(app)
   , io = require('./websocket')(app)
   , routes = require('./routes')
   , schema = require('./schema')
+  , mongoose = schema.mongoose
   , socket = require('./socket')
   , Log = mongoose.model('Log', schema.Log);
 

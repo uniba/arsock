@@ -1,10 +1,18 @@
+
 /**
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
-  , schema = require('../schema')
+var schema = require('../schema')
+  , mongoose = schema.mongoose
   , Log = mongoose.model('Log', schema.Log);
+
+
+/**
+ * Connect to MongoDB server.
+ */
+
+mongoose.connect(process.env.ARSOCK_MONGODB_URI || 'mongodb://localhost/arsock');
 
 /**
  * Routes.
