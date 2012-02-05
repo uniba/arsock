@@ -17,7 +17,7 @@ var express = require('express')
  */
 
 function stream() {
-  var limit = 100;
+  var limit = 25000;
   
   Log.find().count(function(err, num) {
     var offset = Math.floor(Math.random() * (num - limit));
@@ -30,11 +30,11 @@ function stream() {
         doc.forEach(function(el, n) {
           setTimeout(function() {
             io.sockets.emit(el.get('type'), el.get('data'));
-          }, n * 500);
+          }, n * 50);
         });
         setTimeout(function() {
           stream();
-        }, doc.length * 500);
+        }, doc.length * 50);
       });
   });
 }
