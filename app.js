@@ -7,9 +7,9 @@ var express = require('express')
   , config = require('./config')(app)
   , io = require('./websocket')(app)
   , routes = require('./routes')
+  , socket = require('./socket')
   , schema = require('./schema')
   , mongoose = schema.mongoose
-  , socket = require('./socket')
   , Log = mongoose.model('Log', schema.Log);
 
 /**
@@ -17,7 +17,7 @@ var express = require('express')
  */
 
 process.on('uncaughtException', function (err) {
-  console.log(err);
+  console.err(err);
 });
 
 /**
@@ -60,7 +60,8 @@ socket.on('broadcast', function(data) {
  * Boot.
  */
 
-app.listen(process.env.PORT || 3000);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-socket.listen(9337, function() {});
-mongoose.connect(process.env.ARSOCK_MONGODB_URI || 'mongodb://localhost/arsock');
+socket.listen(9337, function() {
+  app.listen(process.env.PORT || 3000);
+  console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+  mongoose.connect(process.env.ARSOCK_MONGODB_URI || 'mongodb://localhost/arsock');  
+});
