@@ -12,7 +12,7 @@ var schema = require('../schema')
  * Connect to MongoDB server.
  */
 
-// mongoose.connect(process.env.ARSOCK_MONGODB_URI || 'mongodb://localhost/arsock');
+mongoose.connect(process.env.ARSOCK_MONGODB_URI || 'mongodb://localhost/arsock');
 
 /**
  * Routes.
