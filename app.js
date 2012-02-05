@@ -17,21 +17,25 @@ var express = require('express')
  */
 
 function stream() {
-  var limit = 1000;
+  var limit = 100;
   
-  Log.find({}).count(function(err, num) {
+  Log.find().count(function(err, num) {
     var offset = Math.floor(Math.random() * (num - limit));
     
-    Log.find({}).limit(limit).skip(offset).exec(function(err, doc) {
-      doc.forEach(function(el, n) {
+    Log.find()
+      .sort('timestamp', 1)
+      .limit(limit)
+      .skip(offset)
+      .exec(function(err, doc) {
+        doc.forEach(function(el, n) {
+          setTimeout(function() {
+            io.sockets.emit(el.get('type'), el.get('data'));
+          }, n * 500);
+        });
         setTimeout(function() {
-          io.sockets.emit(el.type, el.data);
-        }, n * 500);
+          stream();
+        }, doc.length * 500);
       });
-      setTimeout(function() {
-        stream();
-      }, doc.length * 500);
-    });
   });
 }
 
