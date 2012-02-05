@@ -13,6 +13,20 @@ var express = require('express')
   , Log = mongoose.model('Log', schema.Log);
 
 /**
+ * Stream archive data.
+ */
+
+function stream() {
+  Log.find({}).exec(function(err, doc) {
+    doc.forEach(function(el, n) {
+      setTimeout(function() {
+        io.sockets.emit(el.type, el.data);
+      }, n * 500);
+    });
+  });
+}
+
+/**
  * Error handler.
  */
 
@@ -63,19 +77,6 @@ socket.on('broadcast', function(data) {
 socket.listen(9337, function() {
   app.listen(process.env.PORT || 3000);
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-  mongoose.connect(process.env.ARSOCK_MONGODB_URI || 'mongodb://localhost/arsock');  
+  mongoose.connect(process.env.ARSOCK_MONGODB_URI || 'mongodb://localhost/arsock');
+  stream();
 });
-
-/**
- * Stream archive data.
- */
-
-function stream() {
-  Log.find({}).exec(function(err, doc) {
-    doc.forEach(function(el, n) {
-      setTimeout(function() {
-        io.sockets.emit(el.type, el.data);
-      }, n * 500);
-    });
-  });
-}
