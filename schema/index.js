@@ -5,7 +5,14 @@
 var mongoose = require('mongoose');
 
 /**
- * Schema.
+ * Expose mongoose.
+ */
+
+exports.mongoose = mongoose;
+
+
+/**
+ * Expose schema.
  */
 
 exports.Log = require('./log');
