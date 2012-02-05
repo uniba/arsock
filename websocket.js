@@ -11,6 +11,9 @@ var socket = require('socket.io');
 module.exports = function(app) {
   var io = socket.listen(app);
   
+  io.set('log level', false);
+  io.set('transports', ['websocket', 'xhr-polling']);
+  
   io.sockets.on('connection', function(socket) {
     socket.emit('news', { hello: 'world' });
     socket.on('someevent', function(data) {
