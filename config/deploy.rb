@@ -1,4 +1,4 @@
-set :user, "ec2-user"
+set :user, "realtimeweblog.in"
 set :application, "arsock"
 set :repository, "git@github.com:uniba/arsock.git"
 set :scm, :git
