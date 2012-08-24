@@ -11,6 +11,7 @@ window.onload = function() {
   var scene
     , renderer
     , camera
+    , people
     , controls
     , stats
     , Renderer           = Modernizr.webgl && !forceUseCanvas ? THREE.WebGLRenderer : THREE.CanvasRenderer
@@ -38,6 +39,15 @@ window.onload = function() {
     camera = new THREE.PerspectiveCamera(45.0, ww / wh, 0.1, 100000);
     camera.position.z = 5000;
     scene.add(camera);
+    
+    // people
+    
+    var geometry = new THREE.CubeGeometry(100, 100, 100)
+      , material = new THREE.MeshBasicMaterial({color: 0xff8800});
+
+    people = new THREE.Mesh(geometry, material);
+    
+    scene.add(people);
     
     // past routes
     var particles = new THREE.Geometry()
@@ -112,10 +122,29 @@ window.onload = function() {
   
   function render() {
     controls.update();
-    //camera.lookAt({x:0, y:0, z:0});
+    
+    if (Math.random() < 0.01) {
+      updatePeoplePosition(Math.random() * 50, Math.random() * 50);
+    }
+
+    if (Math.random() < 0.6) {
+      updatePeopleRotation(Math.random() * 0.2 - 0.1, Math.random() * 0.2 - 0.1, Math.random() * 0.2 - 0.1);
+    }
+    
     renderer.render(scene, camera);
     stats.update();
   }  
+
+  function updatePeoplePosition(px, py) {
+    people.position.x += px;
+    people.position.y += py;
+  }
+  
+  function updatePeopleRotation(rx, ry, rz) {
+    people.rotation.x += rx;
+    people.rotation.y += ry;
+    people.rotation.z += rz;
+  }
 
   function rgb2hex(r, g, b) {
     r = Math.round(r);
