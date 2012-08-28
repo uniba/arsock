@@ -14,7 +14,7 @@ $(function() {
       $real = $('.real span');
 
   stream.on('connection', function(person) {
-    $('.persons').append('<li><label><input type="checkbox" data-person-id=' + person.id + ' checked="checked" /><label>' + person.id + '</li></label>');
+    $('.persons').append('<li><label><input type="checkbox" data-person-id=' + person.id + ' checked="checked" /><label>' + person.name + '</li></label>');
   });
 
   $('.persons :input').live('change', function() {

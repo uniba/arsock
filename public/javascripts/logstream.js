@@ -19,18 +19,20 @@
         streams = {};
     socket.on('data', function(data) {
       var id = data.udid,
+          name = data.name,
           stream = streams[id];
       if (!stream) {
-        stream = streams[id] = new PersonStream(id);
+        stream = streams[id] = new PersonStream(id, name);
         that.emit('connection', stream);
       }
       stream.emit('latest', data);
     });
   };
 
-  function PersonStream(id) {
-    this.id = id;
+  function PersonStream(id, name) {
     EventEmitter.call(this);
+    this.id = id;
+    this.name = name;
   }
 
   PersonStream.prototype = new EventEmitter();
