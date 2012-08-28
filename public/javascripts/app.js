@@ -1,225 +1,75 @@
--function(window, docuemnt, $, undefined) {
-	var socket = io.connect('http://' + window.location.host);
+/*
+ * 
+ */
 
-	$(function() {
-		var map = $('#map_canvas').arsmap().data('arsmap-api');
-		var $list = $('<ul><li></li></ul>').appendTo('body');
-		function log(type, data) {
-			$list.prepend($('<li>' + type  + ': ' + JSON.stringify(data) + '</li>'));
-			if ($list.find('li').length > 10) {
-				$list.find('li').last().remove();
-			}
-			//if (console) {
-			//	console.log([type, JSON.stringify(data)]);
-			//}
-		}
+$(function() {
 
-		socket.on('ping', function(data) {
-			log('ping', data);
-		});
-		socket.on('accelerometer', function(data) {
-			log('accelerometer', data);
-		});
-		socket.on('location', function(data) {
-			log('location', data);
-                    	map.mark(data);
-		});
-
-		socket.on('heading', function(data) {
-			log('heading', data);
-			setRotate( data );
-		});
-
-		init();
-		animate();
-	});
-
-	google.maps.event.addDomListener(window, 'load', function() {
-		var div = document.getElementById('map_canvas');
-		map = new google.maps.Map(div, {
-			zoom: 8,
-			center: new google.maps.LatLng(48.309659, 14.284415),
-			mapTypeId: google.maps.MapTypeId.ROADMAP,
-			scaleControl: true
-		});
-	});
-
-	var container, stats;
-	var camera, scene, renderer, group, particle;
-	var mouseX = 0, mouseY = 0;
-
-	var camTargetX;
-	var camTargetY;
-	var camTargetDistance = 1000;
-
-	var windowHalfX = window.innerWidth / 2;
-	var windowHalfY = 600 / 2;
-
-	function init() {
-
-		container = document.createElement( 'div' );
-		document.getElementById( 'canvas' ).appendChild( container );
-
-		camera = new THREE.Camera( 75, window.innerWidth / 600, 1, 3000 );
-		camera.position.x = 0;
-		camera.position.y = 0;
-		camera.position.z = 0;
-
-		scene = new THREE.Scene();
-
-		var PI2 = Math.PI * 2;
-		var program = function ( context ) {
-
-			context.beginPath();
-			context.arc( 0, 0, 1, 0, PI2, true );
-			context.closePath();
-			context.fill();
-
-		}
-
-		group = new THREE.Object3D();
-		scene.addObject( group );
-
-		for ( var i = 0; i < 10; i++ ) {
-			for ( var j = 0; j < 10; j++ ) {
-				for ( var k = 0; k < 10; k++ ) {
-
-					particle = new THREE.Particle( new THREE.ParticleCanvasMaterial( { color: 0xFFFFFF, program: program } ) );
-					particle.position.x = i*100 - 5*100;
-					particle.position.y = j*100 - 5*100;
-					particle.position.z = k*100 - 5*100;
-					particle.scale.x = particle.scale.y = 2;
-					group.addChild( particle );
-
-				}
-			}
-		}
-
-		/*
-		// particles
-
-		var PI2 = Math.PI * 2;
-		var material = new THREE.ParticleCanvasMaterial( {
-
-			color: 0xffffff,
-			program: function ( context ) {
-
-				context.beginPath();
-				context.arc( 0, 0, 1, 0, PI2, true );
-				context.closePath();
-				context.fill();
-
-			}
-
-		} );
-
-		var geometry = new THREE.Geometry();
-
-		for ( var i = 0; i < 10; i++ ) {
-			for ( var j = 0; j < 10; j++ ) {
-				for ( var k = 0; k < 10; k++ ) {
-
-					/*
-					particle = new THREE.Particle( material );
-					particle.position.x = i * 2/10 - 2/5;
-					particle.position.y = j * 2/10 - 2/5;
-					particle.position.z = k * 2/10 - 2/5;
-					particle.position.normalize();
-					particle.position.multiplyScalar( 10 + 450 );
-					particle.scale.x = particle.scale.y = 5;
-					scene.addObject( particle );
+  var stream = new LogStream(),
+      state = new State(),
+      world = new World(stream, state, window.innerWidth, window.innerHeight),
+      stats = new Stats();
 
 
-					geometry.vertices.push( new THREE.Vertex( particle.position ) );
-				}
-			}
-		}
+  var $fake = $('.fake span'),
+      $real = $('.real span');
 
-		// lines
+  stream.on('connection', function(person) {
+    $('.persons').append('<li><label><input type="checkbox" data-person-id=' + person.id + ' checked="checked" /><label>' + person.id + '</li></label>');
+  });
 
-		var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 0.5 } ) );
-		scene.addObject( line );
-		*/
+  $('.persons :input').live('change', function() {
+    var id = this.getAttribute('data-person-id');
+    if (this.checked) {
+      state.show(id);
+    } else {
+      state.hide(id);
+    }
+  });
 
+  $('.reduce').on('click', function() {
+    var speed = state.getSpeed();
+    if (speed > 1) {
+      state.setSpeed(speed / 2);
+    } else if (speed === 1) {
+      state.setSpeed(0);
+    } else if (speed === 0) {
+      state.setSpeed(-1);
+    } else {
+      state.setSpeed(speed * 2);
+    }
+  });
 
-		renderer = new THREE.CanvasRenderer();
-		renderer.setSize( window.innerWidth, 600 );
-		container.appendChild( renderer.domElement );
+  $('.increase').on('click', function() {
+    var speed = state.getSpeed();
+    if (speed >= 1) {
+      state.setSpeed(speed * 2);
+    } else if (speed === 0) {
+      state.setSpeed(1);
+    } else if (speed === -1) {
+      state.setSpeed(0);
+    } else {
+      state.setSpeed(speed / 2);
+    }
+  });
 
-		stats = new Stats();
-		stats.domElement.style.position = 'absolute';
-		stats.domElement.style.top = '0px';
-		container.appendChild( stats.domElement );
+  state.on('speedchange', function(val) {
+    $('.speed').text('x' + val);
+  });
 
-		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-		document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-		document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-	}
+  $('.speed').text('x' + state.getSpeed());
 
-	//
+  state.on('tick', function() {
+    $real.text(util.formatTime(new Date()));
+    $fake.text(util.formatTime(state.getDate()));
+  });
+  
+  $(stats.domElement)
+    .addClass('stats')
+    .appendTo(document.body);
+  
+  world.start();
+  world.on('beforerender', stats.begin);
+  world.on('afterrender', stats.end);
 
-	function onDocumentMouseMove( event ) {
-
-		mouseX = event.clientX - windowHalfX;
-		mouseY = event.clientY - windowHalfY;
-	}
-
-	function onDocumentTouchStart( event ) {
-
-		if ( event.touches.length == 1 ) {
-
-			event.preventDefault();
-
-			mouseX = event.touches[ 0 ].pageX - windowHalfX;
-			mouseY = event.touches[ 0 ].pageY - windowHalfY;
-		}
-	}
-
-	function onDocumentTouchMove( event ) {
-
-		if ( event.touches.length == 1 ) {
-
-			event.preventDefault();
-
-			mouseX = event.touches[ 0 ].pageX - windowHalfX;
-			mouseY = event.touches[ 0 ].pageY - windowHalfY;
-		}
-	}
-
-	//
-
-	function animate() {
-
-		requestAnimationFrame( animate );
-
-		render();
-		stats.update();
-
-	}
-
-	function setRotate( data ) {
-		//console.log(['setrotate', data.trueHeading/Math.PI*2]);
-		camera.target.position.x = Math.sin(data.trueHeading/(Math.PI*16)) * camTargetDistance;
-		camera.target.position.z = Math.cos(data.trueHeading/(Math.PI*16)) * camTargetDistance;
-
-		camera.position.x = data.x;
-		camera.position.y = data.y;
-		camera.position.z = data.z;
-
-		renderer.render( scene, camera );
-	}
-
-	function render() {
-
-		//camera.target.x = camTargetX;
-		//camera.target.y = camTargetY;
-		//camera.position.x += ( mouseX - camera.position.x ) * 0.05;
-		//camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
-
-		//group.rotation.x += 0.01;
-		//group.rotation.y += 0.02;
-
-		renderer.render( scene, camera );
-
-	}
-}(window, document, jQuery);
+  document.body.appendChild(world.renderer.domElement);
+});
