@@ -50,6 +50,8 @@ window.onload = function() {
       
     people = new THREE.Object3D();
  
+    status.position.y = 100;
+ 
     person.body = body;
     person.status = status;
     person.name = name;    
@@ -115,7 +117,6 @@ window.onload = function() {
       var material = new THREE.LineBasicMaterial({color: 0xffff00, lineWidth: 1.25})
         , line = new THREE.Line(geometry, material);
       
-      line.position.y = 100;
       line.scale.x = 100;
       line.scale.y = 100;
       line.scale.z = 100;
@@ -128,7 +129,6 @@ window.onload = function() {
       var material = new THREE.LineBasicMaterial({color: 0xffff00, lineWidth: 1.25})
         , line = new THREE.Line(geometry, material);
 
-      line.position.y = 100;
       line.scale.x = 100;
       line.scale.y = 100;
       line.scale.z = 100;
