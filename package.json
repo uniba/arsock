@@ -9,7 +9,6 @@
   , "stylus": "0.x"
   , "mongoose": "2.5.x"
   , "underscore": "1.2.x"
-  , "osc.io": "https://github.com/uniba/osc.io/tarball/master"
   }
 , "devDependencies": {
     "node-dev": "*"
