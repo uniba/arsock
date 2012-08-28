@@ -15,33 +15,17 @@
 
   LogStream.prototype.connect = function() {
     var that = this,
-        io = new Dummy(),
+        socket = io.connect('/'),
         streams = {};
-
-    io.on('anything', function(data) {
-      var name = data.name,
-          stream = streams[name];
+    socket.on('data', function(data) {
+      var id = data.udid,
+          stream = streams[id];
       if (!stream) {
-        stream = streams[name] = new PersonStream(name);
-        that.emit('connection', stream);
-        stream.emit('latest', data);
-        io.on(name, function(data) {
-          stream.emit('latest', data);
-        });
-      }
-    });
-    
-    io.on('data', function(data) {
-      var name = data.name,
-          stream = streams[name];
-      if (!stream) {
-        stream = streams[name] = new PersonStream(name);
+        stream = streams[id] = new PersonStream(id);
         that.emit('connection', stream);
       }
-      stream.emit('past', data);
+      stream.emit('latest', data);
     });
-
-    io.connect();
   };
 
   function PersonStream(id) {

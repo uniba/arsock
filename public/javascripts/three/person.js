@@ -8,7 +8,9 @@
     THREE.Object3D.call(this);
 
     stream.on('latest', function(data) {
-      that.addToken(data);
+      if (data.type === 'location') {
+        that.addToken(data);
+      }
     }); 
 
     stream.on('past', function(data) {
@@ -21,9 +23,9 @@
     var sphere,
         sphereMaterial = new THREE.MeshLambertMaterial({ color: this.color });
     sphere = new THREE.Mesh(new THREE.CylinderGeometry(4, 8, 20), sphereMaterial);
-    sphere.position.x = data.x;
-    sphere.position.y = data.y;
-    sphere.position.z = data.z;
+    sphere.position.x = 0;
+    sphere.position.y = 0;
+    sphere.position.z = 0;
     sphere.visible = this.visible;
     this.add(sphere);
   };

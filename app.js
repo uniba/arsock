@@ -6,6 +6,8 @@ var express = require('express')
   , app = module.exports = express.createServer()
   , config = require('./config')(app)
   , io = require('./websocket')(app)
+  , es = require('event-stream')
+  , fs = require('fs')
   , routes = require('./routes')
   , socket = require('./socket')
   , schema = require('./schema')
@@ -73,3 +75,24 @@ socket.listen(9337, function() {
   mongoose.connect(process.env.ARSOCK_MONGODB_URI || 'mongodb://localhost/arsock');
   stream();
 });
+
+if (!process.env.NODE_ENV) {
+  io.sockets.on('connection', function() {
+    var rs = fs.createReadStream('sample.txt');
+    es.pipeline(rs,
+                es.split("\n"),
+                es.map(function(i, callback) {
+                  var parsed;
+                  try {
+                    parsed = JSON.parse(i);
+                    callback(null, parsed);
+                  } catch(e) {
+                    callback();
+                  }
+                }),
+                es.map(function(data, callback) {
+                  io.sockets.emit('data', data);
+                  callback();
+                }));
+  });
+}
