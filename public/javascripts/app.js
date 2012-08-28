@@ -1,5 +1,12 @@
-/*
- * 
+
+/*!
+ * app.js
+ * main scripts for realtimeweblog.in (2012)
+ *
+ * @dependency Stats.js r10
+ * @dependency jQuery 1.7.2
+ * @dependency world.js
+ * @dependency state.js
  */
 
 $(function() {
@@ -9,13 +16,8 @@ $(function() {
       world = new World(stream, state, window.innerWidth, window.innerHeight),
       stats = new Stats();
 
-
   var $fake = $('.fake span'),
       $real = $('.real span');
-
-  stream.on('connection', function(person) {
-    $('.persons').append('<li><label><input type="checkbox" data-person-id=' + person.id + ' checked="checked" /><label>' + person.name + '</li></label>');
-  });
 
   $('.persons :input').live('change', function() {
     var id = this.getAttribute('data-person-id');
@@ -52,24 +54,34 @@ $(function() {
     }
   });
 
+  stream.on('connection', function(person) {
+    $('.persons')
+      .append($('<li>')
+              .append($('<label/>')
+                      .append('<input type="checkbox" checked="checked" data-person-id="' + person.id + '" />')
+                      .append(person.name)));
+  });
+
+
   state.on('speedchange', function(val) {
     $('.speed').text('x' + val);
   });
-
-  $('.speed').text('x' + state.getSpeed());
 
   state.on('tick', function() {
     $real.text(util.formatTime(new Date()));
     $fake.text(util.formatTime(state.getDate()));
   });
   
+  world.on('beforerender', stats.begin);
+  world.on('afterrender', stats.end);
+
   $(stats.domElement)
     .addClass('stats')
     .appendTo(document.body);
   
   world.start();
-  world.on('beforerender', stats.begin);
-  world.on('afterrender', stats.end);
+
+  $('.speed').text('x' + state.getSpeed());
 
   document.body.appendChild(world.renderer.domElement);
 });

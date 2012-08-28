@@ -1,6 +1,6 @@
 
 /*!
- * clock
+ * clock.js
  * Copyright (c) 2012 hitsujiwool <utatanenohibi@gmail.com>
  * MIT Licensed
  */

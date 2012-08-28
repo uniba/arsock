@@ -1,4 +1,11 @@
 
+/*!
+ * state.js
+ * Object which integrates intenal state of the application
+ * 
+ * @dependency EventEmitter.js
+ */
+
 ;(function(exports) {
 
   function State() {

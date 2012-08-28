@@ -1,8 +1,8 @@
 
 /*!
- * logstream
- * Copyright (c) 2012 hitsujiwool <utatanenohibi@gmail.com>
- * MIT Licensed
+ * logstream.js
+ * 
+ * @dependency EventEmitter.js
  */
 
 ;(function(exports) {

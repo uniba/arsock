@@ -1,4 +1,10 @@
 
+/*!
+ * person.js
+ *
+ * @dependency Three.js
+ */
+
 ;(function(exports) {
 
   function Person(stream) {

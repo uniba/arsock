@@ -1,4 +1,12 @@
 
+/*!
+ * world.js
+ * controller for Three.js elements
+ *
+ * @dependency EventEmitter.js
+ * @dependency Three.js
+ */
+
 ;(function(exports) {
 
   function World(stream, state, width, height) {
