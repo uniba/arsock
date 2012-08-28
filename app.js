@@ -44,7 +44,7 @@ function stream() {
  */
 
 process.on('uncaughtException', function (err) {
-  console.err(err);
+  //console.err(err);
 });
 
 /**
@@ -55,32 +55,12 @@ app.configure(config.all);
 app.configure('development', config.development);
 app.configure('production', config.production);
 
-
-/**
- * Routes.
- */
-
-app.get('/tv', routes.tv);
-app.get('/log/(:type)?', routes.log);
-
 /**
  * Broadcasting.
  */
 
 socket.on('broadcast', function(data) {
-  io.sockets.emit(data.type, data.data);
-});
-
-socket.on('broadcast', function(data) {
-  var log = new Log();
-  
-  log.set('type', data.type)
-    .set('clientId', data.data.clietId)
-    .set('data', data.data)
-    .set('timestamp', data.data._timestamp)
-    .save(function(err) {
-      console.log(arguments);
-    });
+  io.sockets.emit('data', data);
 });
 
 /**
