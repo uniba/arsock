@@ -7,17 +7,15 @@ set :scm_verbose, true
 set :deploy_to, "/home/#{user}/app/#{application}"
 set :deploy_via, :remote_cache
 set :git_shallow_clone, 1
-
 set :node_env, 'production'
-
-default_environment['NODE_ENV'] = 'production'
+set :node_port, 3000
 
 role :web, "54.247.166.129"
 role :app, "54.247.166.129"
 
 namespace :deploy do
   task :start do
-    run "forever start #{current_path}/app.js"
+    run "NODE_ENV=#{node_env} PORT=#{node_port} forever start #{current_path}/app.js"
   end
   task :stop do
     run "forever stop #{current_path}/app.js"
