@@ -57,6 +57,30 @@
       that.people[id].show();
     });
 
+    state.on('move', function(type) {
+      var delta = 100;
+      switch (type) {
+      case 'up':
+        camera.position.y += delta;
+        break;
+      case 'down':
+        camera.position.y -= delta;
+        break;
+      case 'left':
+        camera.position.x -= delta;
+        break;
+      case 'right':
+        camera.position.x += delta;
+        break;
+      case 'forward':
+        camera.position.z -= delta;
+        break;
+      case 'backward':
+        camera.position.z += delta;
+        break;
+      }
+    });
+
     stream.connect();
             
     this.renderer = renderer;

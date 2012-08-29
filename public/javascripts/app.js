@@ -74,6 +74,29 @@ $(function() {
     $fake.text(util.formatTime(state.getDate()));
   });
 
+  $(window).on('keydown', function(e) {
+    switch (String.fromCharCode(e.keyCode)) {
+    case 'Q':
+      state.emit('move', 'up');
+      break;
+    case 'E':
+      state.emit('move', 'down');
+      break;
+    case 'W':
+      state.emit('move', 'forward');
+      break;
+    case 'A':
+      state.emit('move', 'left');
+      break;
+    case 'S':
+      state.emit('move', 'backward');
+      break;
+    case 'D':
+      state.emit('move', 'right');
+      break;
+    }
+  });
+
   if (debug) {
     world.on('beforerender', stats.begin);
     world.on('afterrender', stats.end);
