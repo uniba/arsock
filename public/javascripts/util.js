@@ -15,6 +15,10 @@
       return parseInt(str, 16);
     },
 
+    deg2rad: function(deg) {
+      return (deg / 180) * Math.PI;
+    },
+
     formatTime: function(date) {
       var day = [date.getMonth() + 1, date.getDate()].join('/'),
           time = [date.getHours(), date.getMinutes(), date.getSeconds()].map(function(item) {
@@ -30,6 +34,10 @@
         str = '0' + str;
       }
       return str;
+    },
+
+    locationFromUniba: function(lang, long) {
+      return { latitude: lang - 35.663411, longitude: long - 139.70502 };
     }
   };
 

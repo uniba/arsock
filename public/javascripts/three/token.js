@@ -8,7 +8,7 @@
 
 ;(function(exports) {
 
-  function Token(color) {
+  function Token(color, name) {
     THREE.Object3D.call(this);
     color = color || 0xffff00;
 
@@ -65,12 +65,14 @@
 
   Token.prototype = new THREE.Object3D();
 
-  Token.prototype.updatePosition = function(x, y, z) {
-    
+  Token.prototype.updatePosition = function(x, y, z) {    
   };
 
-  Token.prototype.updateNameAngle = function(angle) {
-    
+  Token.prototype.updateDirection = function(rad) {
+    this.status.rotation.y = rad;
+  };
+
+  Token.prototype.updateNameAngle = function(angle) {    
   };
 
   exports.Token = Token;

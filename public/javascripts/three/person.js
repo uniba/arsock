@@ -13,7 +13,7 @@
     var that = this,
         token = new Token(util.randColor()),
         particles = new THREE.Geometry(),
-        route  = new THREE.ParticleSystem(particles, new THREE.ParticleBasicMaterial({ color: 0xff6600, size: 10 }));
+        route  = new THREE.ParticleSystem(particles, new THREE.ParticleBasicMaterial({ color: 0xff6600, size: 30 }));
 
     this.add(token);
     this.add(route);
@@ -56,6 +56,15 @@
 
     stream.on('latest', function(data) {
       if (data.type === 'location') {
+        var scale = 1000000;
+        var pos = util.locationFromUniba(data.data.latitude, data.data.longitude);
+        var z = pos.latitude * scale;
+        var x = pos.longitude * scale;
+        that.position.z = z;
+        that.position.x = x;
+        console.log('moved');
+      } else if (data.type === 'heading') {
+        token.updateDirection(util.deg2rad(data.data.trueHeading));
       }
     }); 
 
@@ -81,7 +90,7 @@
 
   // 標準のループ
   Person.prototype.update = function() {
-  
+    
     // creating dummy data
     /*
     var p = new THREE.Vector3();
