@@ -32,9 +32,13 @@
     stream.on('latest', function(data) {
       if (data.type === 'location') {
         that.counter++;
+        // location data is already converted to the relative position.
+        // see app.js, where Logstream#addFilter() is called.
         that.updateLocation(data.data.latitude, 0, data.data.longitude);
       } else if (data.type === 'heading') {
         token.updateDirection(util.deg2rad(data.data.trueHeading));
+      } else if (data.type === 'acceleration') {
+        // do something!
       }
     }); 
 
