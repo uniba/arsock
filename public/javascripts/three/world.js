@@ -18,11 +18,8 @@
       , camera
       , scene
       , controls
-      , linz
       , grid;
       
-    var jsonLoader = new THREE.JSONLoader();
-
     this.people = {};
     this.rendering = false;
     this.state = state;
@@ -38,11 +35,14 @@
     camera.position.z = 0;
 
     scene = new THREE.Scene();
-    scene.add(camera);
       
     controls = new THREE.TrackballControls(camera, renderer.domElement);
 
-    // ユーザごとのstreamを作成
+    scene.add(camera);    
+    scene.add(new ParticleGrid());
+    scene.add(new LineGrid());    
+    scene.add(new Geography());
+
     stream.on('connection', function(personStream) {
       var person = new Person(personStream, that.scene);
       that.people[personStream.id] = person;
@@ -58,63 +58,11 @@
     });
 
     stream.connect();
-    
-    // grid
-    var gridParticles = new THREE.Geometry()
-      , gridPMaterial = new THREE.ParticleBasicMaterial({color: 0x009900, size: 50});
-    
-    grid = new THREE.ParticleSystem(gridParticles, gridPMaterial);
-    
-    for (var i=-50000, il=100000; i<il; i+=2000) {
-      for (var j=-50000, jl=100000; j<jl; j+=2000) {     
-        var p = new THREE.Vector3(); 
-  
-        p.x = i;
-        p.z = j;
-              
-        gridParticles.vertices.push(p);
-      }
-    }
-
-    scene.add(grid);
-    
-    // ars electronica center
-    
-    linz = new THREE.Object3D();
-    
-    jsonLoader.load('assets/models/linz/json/arselectronicacenter.js', function(geometry){
-      var material = new THREE.MeshBasicMaterial({color: 0x009900, wireframe: true})
-        , line = new THREE.Mesh(geometry, material);
-
-      line.position.x = 3000;
-      line.position.z = 1500;
-      line.rotation.y = Math.PI * 0.66;
-      line.scale.x = 500;
-      line.scale.y = 500;
-      line.scale.z = 500;
-      
-      that.linz.add(line);
-    }); 
-
-    // donau river (line)
-    jsonLoader.load('assets/models/linz/json/donau.js', function(geometry){
-      var material = new THREE.LineBasicMaterial({color: 0x009900, lineWidth: 1.25})
-        , line = new THREE.Line(geometry, material);
-
-      line.scale.x = 10000;
-      line.scale.y = 10000;
-      line.scale.z = 10000;
-      
-      that.linz.add(line);
-    });
-    
-    scene.add(linz);
-    
+            
     this.renderer = renderer;
     this.camera = camera;
     this.scene = scene;
     this.controls = controls;   
-    this.linz = linz;
     this.grid = grid;
   };
   
