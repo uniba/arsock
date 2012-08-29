@@ -17,20 +17,7 @@
 
     this.add(token);
     this.add(route);
-
-    this.route = route;
-    this.particles = particles;
-    this.counter = 0;
-
-    // for dummy data of route
-    this.direction = new THREE.Vector3(Math.random(), Math.random(), 0);
-    this.speed = Math.random() * 100;
-    this.px = Math.random() * 1000 - 500;
-    this.pz = Math.random() * 1000 - 500;
-
-
-    token.updateLocation(this.px, 0, this.pz);
-    
+        
     // route
     route.geometry.__dirtyVertices = true;
     route.geometry.__dirtyElements = true;
@@ -39,7 +26,7 @@
     for (var i=0, il=50000; i<il; i++) {
       var p = new THREE.Vector3(0, 0, 0);
       p.y = 1000000;      
-      this.route.geometry.vertices.push(p);
+      route.geometry.vertices.push(p);
     }
 
     stream.on('latest', function(data) {
@@ -50,8 +37,8 @@
             z = pos.latitude * scale,
             x = pos.longitude * scale;
 
-        token.updateLocation(x, 0, z);
-        that.addTokenAt(x, 0, z);
+        that.updateLocation(x, 0, z);
+
       } else if (data.type === 'heading') {
         token.updateDirection(util.deg2rad(data.data.trueHeading));
       }
@@ -59,6 +46,14 @@
 
     stream.on('past', function(data) {
     });
+
+    this.token = token;
+    this.route = route;
+    this.particles = particles;
+    this.counter = 0;
+
+    // setup initial location (just a dummy!)
+    this.updateLocation(Math.random() * 1000 - 500, 0, Math.random() * 1000 - 500);
   }
 
   Person.prototype = new THREE.Object3D();
@@ -75,6 +70,11 @@
     this.children.forEach(function(item) {
       item.visible = false;
     });
+  };
+
+  Person.prototype.updateLocation = function(x, y, z) {
+    this.token.updateLocation(x, 0, z);
+    this.addTokenAt(x, 0, z);
   };
 
   Person.prototype.addTokenAt = function(x, y, z) {
