@@ -11,6 +11,8 @@
 
 $(function() {
 
+  var debug = true;
+
   var stream = new LogStream(),
       state = new State(),
       world = new World(stream, state, window.innerWidth, window.innerHeight),
@@ -55,7 +57,7 @@ $(function() {
   });
 
   stream.on('connection', function(person) {
-    $('.persons')
+    $('.people')
       .append($('<li>')
               .append($('<label/>')
                       .append('<input type="checkbox" checked="checked" data-person-id="' + person.id + '" />')
@@ -71,13 +73,15 @@ $(function() {
     $real.text(util.formatTime(new Date()));
     $fake.text(util.formatTime(state.getDate()));
   });
-  
-  world.on('beforerender', stats.begin);
-  world.on('afterrender', stats.end);
 
-  $(stats.domElement)
-    .addClass('stats')
-    .appendTo(document.body);
+  if (debug) {
+    world.on('beforerender', stats.begin);
+    world.on('afterrender', stats.end);
+
+    $(stats.domElement)
+      .addClass('stats')
+      .appendTo(document.body);
+  }
   
   world.start();
 

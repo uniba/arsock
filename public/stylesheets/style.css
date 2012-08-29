@@ -1,13 +1,25 @@
+p, ul, li {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
 body {
-  color: #ffffff;
   background-color: #000000;
 }
 
-.console {  
+.console {
+  padding: 10px;
   position: absolute;
-  top: 50px;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.people {
+  list-style-type: none;
 }
 
 .stats {
   position: absolute;
+  right : 0;
 }
