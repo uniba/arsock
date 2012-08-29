@@ -82,7 +82,21 @@ $(function() {
       .addClass('stats')
       .appendTo(document.body);
   }
-  
+
+  // convert location relative to the center position, then scale it.
+  stream.addFilter(function(data) {
+    var lat,
+        lon,
+        center = debug ? arsock.config.location.uniba : arsock.config.location.arscenter;
+    if (data.type === 'location') {
+      lat = data.data.latitude,
+      lon = data.data.longitude;
+      data.data.latitude = (lat - center.latitude) * 1000000;
+      data.data.longitude = (lon - center.longitude) * 1000000;
+    }
+    return data;
+  });
+
   world.start();
 
   $('.speed').text('x' + state.getSpeed());

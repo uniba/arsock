@@ -32,13 +32,7 @@
     stream.on('latest', function(data) {
       if (data.type === 'location') {
         that.counter++;
-        var scale = 1000000,
-            pos = util.locationFromUniba(data.data.latitude, data.data.longitude),
-            z = pos.latitude * scale,
-            x = pos.longitude * scale;
-
-        that.updateLocation(x, 0, z);
-
+        that.updateLocation(data.data.latitude, 0, data.data.longitude);
       } else if (data.type === 'heading') {
         token.updateDirection(util.deg2rad(data.data.trueHeading));
       }

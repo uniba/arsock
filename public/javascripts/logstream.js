@@ -9,6 +9,7 @@
   
   function LogStream(resource) {
     EventEmitter.call(this);
+    this.filters = [];
   }
   
   LogStream.prototype = new EventEmitter;
@@ -18,15 +19,25 @@
         socket = io.connect('/'),
         streams = {};
     socket.on('data', function(data) {
+      that.filters.forEach(function(filter) {
+        filtered = filter(data);
+      });          
+
       var id = data.udid,
           name = data.name,
-          stream = streams[id];
+          stream = streams[id],
+          filtered;
+      
       if (!stream) {
         stream = streams[id] = new PersonStream(id, name);
         that.emit('connection', stream);
       }
-      stream.emit('latest', data);
+      stream.emit('latest', filtered);
     });
+  };
+
+  LogStream.prototype.addFilter = function(filter) {
+    this.filters.push(filter);
   };
 
   function PersonStream(id, name) {

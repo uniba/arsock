@@ -35,10 +35,6 @@
       }
       return str;
     },
-
-    locationFromUniba: function(lang, long) {
-      return { latitude: lang - 35.663411, longitude: long - 139.70502 };
-    }
   };
 
   exports.util = util;
