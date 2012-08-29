@@ -34,7 +34,7 @@
         str = '0' + str;
       }
       return str;
-    },
+    }
   };
 
   exports.util = util;
