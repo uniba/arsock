@@ -21,7 +21,7 @@ $(function() {
   var $fake = $('.fake span'),
       $real = $('.real span');
 
-  $('.persons :input').live('change', function() {
+  $('.people :input').live('change', function() {
     var id = this.getAttribute('data-person-id');
     if (this.checked) {
       state.show(id);
