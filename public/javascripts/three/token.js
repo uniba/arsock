@@ -68,6 +68,13 @@
   Token.prototype.updatePosition = function(x, y, z) {    
   };
 
+  Token.prototype.updateLocation = function(x, y, z) {
+    var position = this.position;
+    position.x = x;
+    position.y = y;
+    position.z = z;
+  };
+
   Token.prototype.updateDirection = function(rad) {
     this.status.rotation.y = rad;
   };
