@@ -59,17 +59,25 @@
   Person.prototype = new THREE.Object3D();
   
   Person.prototype.show = function() {
-    this.visible = true;
-    this.children.forEach(function(item) {
-      item.visible = true;
+    this.forAllChildren(function(child) {
+      child.visible = true;
     });
   };
   
   Person.prototype.hide = function() {
-    this.visible = false;
-    this.children.forEach(function(item) {
-      item.visible = false;
+    this.forAllChildren(function(child) {
+      child.visible = false;
     });
+  };
+
+  Person.prototype.forAllChildren = function(callback) {
+    function iter(obj) {
+      callback(obj);
+      obj.children.forEach(function(child) {
+        iter(child);
+      });
+    };
+    iter(this);
   };
 
   Person.prototype.updateLocation = function(x, y, z) {
