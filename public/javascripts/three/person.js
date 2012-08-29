@@ -7,36 +7,20 @@
 
 ;(function(exports) {
 
-  function Person(stream) {
-  
+  function Person(stream) {  
     THREE.Object3D.call(this);
     
-    var that = this;
+    var that = this,
+        token = new Token(util.randColor()),
+        particles = new THREE.Geometry(),
+        route  = new THREE.ParticleSystem(particles, new THREE.ParticleBasicMaterial({ color: 0xff6600, size: 10 }));
 
-    var color  = util.randColor();
+    this.add(token);
+    this.add(route);
 
-    // three.js
-    var body   = new THREE.Object3D()
-      , status = new THREE.Object3D()
-      , name   = new THREE.Object3D()
-      , particles = new THREE.Geometry()
-      , route  = new THREE.ParticleSystem(particles, new THREE.ParticleBasicMaterial({color: 0xff6600, size: 10}))
-      , jsonLoader = new THREE.JSONLoader();
-        
-    this.add(body);
-    this.add(status);
-    this.add(name);
-    this.add(route)
-
-    this.body = body;
-    this.status = status;
-    this.name = name;
     this.route = route;
-
     this.particles = particles;
     this.counter = 0;
-
-    this.color = color;
 
     // for dummy data of route
     this.direction = new THREE.Vector3(Math.random(), Math.random(), 0);
@@ -44,52 +28,8 @@
     this.px = Math.random() * 1000 - 500;
     this.pz = Math.random() * 1000 - 500;
 
-    // body
-    jsonLoader.load('assets/models/person/json/001_body1.js', function(geometry){
-      var material = new THREE.MeshBasicMaterial({color: 0xffff00, side: 2})
-        , mesh = new THREE.Mesh(geometry, material);
-      mesh.scale.set(100, 100, 100);
-      that.body.add(mesh);
-    });
-
-    jsonLoader.load('assets/models/person/json/001_body2.js', function(geometry){
-      var material = new THREE.LineBasicMaterial({color: 0xffff00, lineWidth: 1.25})
-        , line = new THREE.Line(geometry, material);
-      line.scale.set(100, 100, 100);
-      that.body.add(line);
-    });
-    
-    jsonLoader.load('assets/models/person/json/001_body3.js', function(geometry){
-      var material = new THREE.LineBasicMaterial({color: 0xffff00, lineWidth: 1.25})
-        , line = new THREE.Line(geometry, material);
-      line.scale.set(100, 100, 100);
-      that.body.add(line);
-    });
-    
-    // name
-    jsonLoader.load('assets/models/person/json/001_name.js', function(geometry){
-      var material = new THREE.MeshBasicMaterial({color: 0xffff00, side: 2})
-        , mesh = new THREE.Mesh(geometry, material);
-      mesh.scale.set(100, 100, 100);
-      that.name.add(mesh);
-    });
-    
-    // status
-    status.position.y = 100;
-    
-    jsonLoader.load('assets/models/person/json/001_status1.js', function(geometry){
-      var material = new THREE.LineBasicMaterial({color: 0xffff00, lineWidth: 1.25})
-        , line = new THREE.Line(geometry, material);
-      line.scale.set(100, 100, 100);
-      that.status.add(line);
-    });   
-    
-    jsonLoader.load('assets/models/person/json/001_body3.js', function(geometry){
-      var material = new THREE.LineBasicMaterial({color: 0xffff00, lineWidth: 1.25})
-        , line = new THREE.Line(geometry, material);
-      line.scale.set(100, 100, 100);
-      that.status.add(line);
-    });
+    this.position.x = this.px;
+    this.position.z = this.pz;
     
     // route
     route.geometry.__dirtyVertices = true;
@@ -114,10 +54,8 @@
       this.route.geometry.vertices.push(p);
     }
 
-    // 
     stream.on('latest', function(data) {
       if (data.type === 'location') {
-        that.addToken(data);
       }
     }); 
 
@@ -127,17 +65,6 @@
 
   Person.prototype = new THREE.Object3D();
   
-  Person.prototype.addToken = function(data) {    
-    var sphere,
-        sphereMaterial = new THREE.MeshLambertMaterial({ color: this.color });
-    sphere = new THREE.Mesh(new THREE.CylinderGeometry(4, 8, 20), sphereMaterial);
-    sphere.position.x = 0;
-    sphere.position.y = 0;
-    sphere.position.z = 0;
-    sphere.visible = this.visible;
-    this.add(sphere);
-  };
-
   Person.prototype.show = function() {
     this.visible = true;
     this.children.forEach(function(item) {
