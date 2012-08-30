@@ -7,12 +7,14 @@ var express = require('express')
   , config = require('./config')(app)
   , io = require('./websocket')(app)
   , es = require('event-stream')
-  , fs = require('fs')
+  , colors = require('colors')
+  , util = require('util')
   , routes = require('./routes')
   , socket = require('./socket')
   , schema = require('./schema')
   , mongoose = schema.mongoose
-  , Log = mongoose.model('Log', schema.Log);
+  , Log = mongoose.model('Log', schema.Log)
+  , walker = require('node-sleepwalker');
 
 /**
  * Stream archive data.
@@ -62,6 +64,20 @@ app.configure('production', config.production);
  */
 
 socket.on('broadcast', function(data) {
+  var head;
+  switch (data.type) {    
+  case 'location':
+    head = data.type.red;
+    break;
+  case 'heading':
+    head = data.type.yellow;
+    break;
+  case 'acceleration':
+    head = data.type.green;
+  default:      
+  }
+  console.log(head + ' from ' + data.name + ' (' + data.udid + ')'); 
+  console.log(util.inspect(data.data) + "\n");
   io.sockets.emit('data', data);
 });
 
@@ -76,23 +92,10 @@ socket.listen(9337, function() {
   stream();
 });
 
+// in the development environment, create dummy TCP client.
 if (!process.env.NODE_ENV) {
-  io.sockets.on('connection', function() {
-    var rs = fs.createReadStream('sample.txt');
-    es.pipeline(rs,
-                es.split("\n"),
-                es.map(function(i, callback) {
-                  var parsed;
-                  try {
-                    parsed = JSON.parse(i);
-                    callback(null, parsed);
-                  } catch(e) {
-                    callback();
-                  }
-                }),
-                es.map(function(data, callback) {
-                  io.sockets.emit('data', data);
-                  callback();
-                }));
-  });
+  walker({ name: 'sleepwalker', udid: Math.floor(Math.random() * 1000000) })
+    .use(walker.builder('location', 35.663411, 139.70502), 0.2)
+    .use(walker.builder('heading'), 0.8)
+    .walk(9337);
 }
