@@ -48,7 +48,7 @@ function stream() {
  */
 
 process.on('uncaughtException', function (err) {
-  //console.err(err);
+  console.error(err);
 });
 
 /**
@@ -81,6 +81,16 @@ socket.on('broadcast', function(data) {
   io.sockets.emit('data', data);
 });
 
+socket.on('broadcast', function(data) {
+  var log = new Log(data);
+  log.set('created', new Date().getTime());
+  log.save(function(err) {
+    if (err) {
+      console.error(err);
+    }
+  });
+});
+
 /**
  * Boot.
  */
@@ -88,7 +98,7 @@ socket.on('broadcast', function(data) {
 socket.listen(9337, function() {
   app.listen(process.env.PORT || 3000);
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-  mongoose.connect(process.env.ARSOCK_MONGODB_URI || 'mongodb://localhost/arsock');
+  mongoose.connect(process.env.ARSOCK_MONGODB_URI || 'mongodb://localhost/linz2012');
   stream();
 });
 
