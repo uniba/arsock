@@ -7,7 +7,7 @@
 
   arsock.config = {
     scale: 100000,
-    zoom: 19,
+    zoom: 21,
     location: {
       uniba: { latitude: 35.663411, longitude: 139.70502 },
       arscenter: { latitude: 48.3096, longitude: 14.2842 }

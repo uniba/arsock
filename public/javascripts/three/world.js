@@ -9,7 +9,7 @@
 
 ;(function(exports) {
 
-  function World(stream, state, width, height) {
+  function World(stream, state, width, height, config) {
     EventEmitter.call(this);
 
     var that = this;
@@ -30,7 +30,9 @@
     
     // camera
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000);
-    camera.position.x = - 5000;
+    //camera.position.x = - 5000;
+    camera.rotation.x = - Math.PI / 2;
+    //camera.rotation.z = - Math.PI / 2;
     camera.position.y = 2000;
     camera.position.z = 0;
 
@@ -42,7 +44,7 @@
     scene.add(new ParticleGrid());
     scene.add(new LineGrid());    
     scene.add(new Geography());
-    //scene.add(new Map(arsock.config.location.arscenter.latitude, arsock.config.location.arscenter.longitude, arsock.config.zoom));
+    //scene.add(new Map(config.location.arscenter.latitude, config.location.arscenter.longitude, config.zoom));
 
     stream.on('connection', function(personStream) {
       var person = new Person(personStream, that.scene);
@@ -115,7 +117,7 @@
 
     this.state.tick();
 
-    this.controls.update();
+    //this.controls.update();
 
     this.renderer.render(this.scene, this.camera);
 

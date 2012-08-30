@@ -11,20 +11,19 @@
     this.map = {};
     this.set(0, 0, lat, lon);
 
-    for (var i = 1; i < 10; i++) {
-      lat = util.latitudeSouthTo(lat, lon, zoom, 650);
+    for (var i = 1; i < 15; i++) {
+      lat = util.latitudeSouthTo(lat, lon, zoom, 640);
       this.set(0, i, lat, lon);
     }
 
     Object.keys(this.map).forEach(function(x) {      
       Object.keys(that.map[x]).forEach(function(y) {
-        console.log(x, y);
+        console.log(x, y, that.get(x, y));
         that.load(that.get(x, y), function(map) {
-          map.scale.x = 10;
-          map.scale.y = 10;
+          map.scale.x = 2;
+          map.scale.y = 2;
           map.rotation.x = - Math.PI / 2;
-          map.rotation.z = - Math.PI / 2;
-          map.position.x = - 6400 * parseInt(y, 10);
+          map.position.z = 1280 * parseInt(y, 10);
           map.doubleSided = true;
           that.add(map);
         });

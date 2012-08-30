@@ -22,7 +22,7 @@ app.get('/map/:l', function(req, res){
   console.log(req.params['l'].split(','));
   var path = '/maps/api/staticmap';
   var params = {
-    zoom: '19',
+    zoom: '21',
     size: '640x640',
     maptype: 'roadmap',
     sensor: 'false'

@@ -58,7 +58,7 @@
     },
 
     pixelDistance: function(lat1, lon1, lat2, lon2, zoom) {
-      var x1 = lonToX(lon1),
+      var x1 = util.lonToX(lon1),
       y1 = util.latToY(lat1),
       x2 = util.lonToX(lon2),
       y2 = util.latToY(lat2);        
