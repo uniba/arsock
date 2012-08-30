@@ -6,6 +6,7 @@ p, ul, li {
 
 body {
   background-color: #000000;
+  overflow: hidden;
 }
 
 .console {
