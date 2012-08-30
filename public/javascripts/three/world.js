@@ -38,10 +38,11 @@
       
     controls = new THREE.TrackballControls(camera, renderer.domElement);
 
-    scene.add(camera);    
+    scene.add(camera);
     scene.add(new ParticleGrid());
     scene.add(new LineGrid());    
     scene.add(new Geography());
+    //scene.add(new Map(arsock.config.location.arscenter.latitude, arsock.config.location.arscenter.longitude, arsock.config.zoom));
 
     stream.on('connection', function(personStream) {
       var person = new Person(personStream, that.scene);
@@ -84,7 +85,7 @@
     stream.connect();
             
     this.renderer = renderer;
-    this.camera = camera;
+    exports.camera = this.camera = camera;
     this.scene = scene;
     this.controls = controls;   
     this.grid = grid;
