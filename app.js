@@ -96,7 +96,7 @@ socket.listen(9337, function() {
 if (!process.env.NODE_ENV) {
   walker({ name: 'sleepwalker', udid: Math.floor(Math.random() * 1000000) })
     .interval(100)
-    .use(walker.builder('location', 35.663411, 139.70502), 0.2)
+    .use(walker.builder('location', 48.3096, 14.2842), 0.2)
     .use(walker.builder('heading'), 0.8)
     .walk(9337);
 }
