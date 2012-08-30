@@ -14,12 +14,41 @@ var express = require('express')
   , schema = require('./schema')
   , mongoose = schema.mongoose
   , Log = mongoose.model('Log', schema.Log)
-  , walker = require('node-sleepwalker');
+  , walker = require('node-sleepwalker')
+  , http = require('http');
+    
+
+app.get('/map/:l', function(req, res){  
+  console.log(req.params['l'].split(','));
+  var path = '/maps/api/staticmap';
+  var params = {
+    zoom: '21',
+    size: '640x640',
+    maptype: 'roadmap',
+    sensor: 'false'
+  };
+  params['center'] = req.params['l'];
+  var tmp = [];
+  for (var key in params) {
+    tmp.push(key + '=' + params[key]);
+  }
+  path = path + '?' + tmp.join('&');
+  http.get({
+    host: 'maps.google.com',
+    path: path
+  }, function(response) {
+    response.on('data', function(chunk) {
+      res.write(chunk);
+    });
+    response.on('end', function() {
+      res.end();
+    });
+  });
+});
 
 /**
  * Stream archive data.
  */
-
 function stream() {
   var limit = 25000;
   

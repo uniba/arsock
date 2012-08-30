@@ -15,7 +15,7 @@ $(function() {
 
   var stream = new LogStream(),
       state = new State(),
-      world = new World(stream, state, window.innerWidth, window.innerHeight),
+      world = new World(stream, state, window.innerWidth, window.innerHeight, config),
       stats = new Stats();
 
   var $fake = $('.fake span'),
@@ -112,8 +112,8 @@ $(function() {
     if (data.type === 'location') {
       lat = data.data.latitude,
       lon = data.data.longitude;
-      data.data.latitude = (lat - center.latitude) * arsock.config.scale;
-      data.data.longitude = (lon - center.longitude) * arsock.config.scale;
+      data.data.latitude = (lat - center.latitude) * config.scale;
+      data.data.longitude = (lon - center.longitude) * config.scale;
     }
     return data;
   });
