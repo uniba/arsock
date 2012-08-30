@@ -114,8 +114,8 @@ $(function() {
     if (data.type === 'location') {
       lat = data.data.latitude,
       lon = data.data.longitude;
-      data.data.latitude = (lat - center.latitude) * 1000000;
-      data.data.longitude = (lon - center.longitude) * 1000000;
+      data.data.latitude = (lat - center.latitude) * arsock.config.scale;
+      data.data.longitude = (lon - center.longitude) * arsock.config.scale;
     }
     return data;
   });
