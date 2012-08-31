@@ -16,6 +16,7 @@
         route  = new THREE.ParticleSystem(particles, new THREE.ParticleBasicMaterial({ color: 0xff6600, size: 40 }));
 
     stream.on('latest', function(data) {
+      console.log(2);
       if (data.type === 'location') {
         that.counter++;
         // location data is already converted to the relative position.
@@ -29,6 +30,7 @@
     }); 
 
     stream.on('past', function(data) {
+      // do something!
     });
 
     this.add(token);

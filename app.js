@@ -17,32 +17,6 @@ var express = require('express')
   , http = require('http');
     
 /**
- * Stream archive data.
- */
-function stream() {
-  var limit = 25000;
-  
-  Log.find().count(function(err, num) {
-    var offset = Math.floor(Math.random() * (num - limit));
-    
-    Log.find()
-      .sort('timestamp', 1)
-      .limit(limit)
-      .skip(offset)
-      .exec(function(err, doc) {
-        doc.forEach(function(el, n) {
-          setTimeout(function() {
-            io.sockets.emit(el.get('type'), el.get('data'));
-          }, n * 50);
-        });
-        setTimeout(function() {
-          stream();
-        }, doc.length * 50);
-      });
-  });
-}
-
-/**
  * Error handler.
  */
 
@@ -61,6 +35,27 @@ app.configure('production', config.production);
 /**
  * Broadcasting.
  */
+io.sockets.on('connection', function(socket) {
+  Log
+    .where('data.timestamp')
+    .lt(new Date().getTime())
+    .sort('-data.timestamp')
+    .exec(function(err, doc) {
+      if (err) return;
+      var el = doc.shift();
+      function loop() {
+        if (el) {
+          io.sockets.emit('past', el);
+          el = doc.shift();
+          setInterval(function() {
+            loop();
+          }, 100);
+        }
+      };
+      loop();
+    });
+});
+
 
 socket.on('broadcast', function(data) {
   var head;
@@ -77,7 +72,7 @@ socket.on('broadcast', function(data) {
   }
   console.log(head + ' from ' + data.name + ' (' + data.udid + ')'); 
   console.log(util.inspect(data.data) + "\n");
-  io.sockets.emit('data', data);
+  io.sockets.emit('latest', data);
 });
 
 socket.on('broadcast', function(data) {
@@ -98,7 +93,6 @@ socket.listen(9337, function() {
   app.listen(process.env.PORT || 3000);
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
   mongoose.connect(process.env.ARSOCK_MONGODB_URI || 'mongodb://localhost/linz2012');
-  stream();
 });
 
 // in the development environment, create dummy TCP client.

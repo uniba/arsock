@@ -18,7 +18,7 @@
     var that = this,
         socket = io.connect('/'),
         streams = {};
-    socket.on('data', function(data) {
+    socket.on('latest', function(data) {
       var id = data.udid,
           name = data.name,
           stream = streams[id],
@@ -33,6 +33,23 @@
         that.emit('connection', stream);
       }
       stream.emit('latest', filtered);
+    });
+
+    socket.on('past', function(data) {
+      var id = data.udid,
+          name = data.name,
+          stream = streams[id],
+          filtered = data;
+      
+      that.filters.forEach(function(filter) {
+        filtered = filter(data);
+      });          
+
+      if (!stream) {
+        stream = streams[id] = new PersonStream(id, name);
+        that.emit('connection', stream);
+      }
+      stream.emit('past', filtered);
     });
   };
 
