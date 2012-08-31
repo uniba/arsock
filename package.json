@@ -10,7 +10,6 @@
   , "mongoose": "2.5.x"
   , "underscore": "1.2.x"
   , "event-stream": "*"
-  , "node-sleepwalker": "git://github.com/hitsujiwool/node-sleepwalker.git"
   , "colors" : "*"
   }
 , "devDependencies": {
