@@ -11,9 +11,9 @@ var express = require('express')
   , util = require('util')
   , socket = require('./socket')
   , schema = require('./schema')
+  , walker = require('./walker')
   , mongoose = schema.mongoose
   , Log = mongoose.model('Log', schema.Log)
-  , walker = require('node-sleepwalker')
   , http = require('http');
     
 /**
