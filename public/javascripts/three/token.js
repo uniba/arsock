@@ -8,7 +8,7 @@
 
 ;(function(exports) {
 
-  function Token(color, name) {
+  function Token(id, color) {
     THREE.Object3D.call(this);
     color = color || 0xffff00;
 
@@ -16,6 +16,10 @@
         status = new THREE.Object3D(),
         name = new THREE.Object3D(),
         loader = new THREE.JSONLoader();
+
+    loader.onError = function() {
+      console.log('error');
+    };
 
     loader.load('assets/models/person/json/001_body1.js', function(geometry){
       var material = new THREE.MeshBasicMaterial({ color: color, side: 2 }),
@@ -38,7 +42,7 @@
       body.add(line);
     });
     
-    loader.load('assets/models/person/json/001_name.js', function(geometry){
+    loader.load('assets/models/person/json/name_' + id + '.js', function(geometry){
       var material = new THREE.MeshBasicMaterial({ color: color, side: 2 }),
           mesh = new THREE.Mesh(geometry, material);
       mesh.scale.set(100, 100, 100);

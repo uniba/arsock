@@ -11,7 +11,7 @@
     THREE.Object3D.call(this);
     
     var that = this,
-        token = new Token(util.randColor()),
+        token = new Token(stream.id, util.randColor()),
         particles = new THREE.Geometry(),
         route  = new THREE.ParticleSystem(particles, new THREE.ParticleBasicMaterial({ color: 0xff6600, size: 40 }));
 
