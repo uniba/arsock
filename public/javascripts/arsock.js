@@ -6,7 +6,7 @@
   arsock.version = '0.0.1';
 
   arsock.config = {
-    scale: 1000000,
+    scale: 200000,
     zoom: 15,
     location: {
       arscenter: { latitude: 48.3096, longitude: 14.2842 }
