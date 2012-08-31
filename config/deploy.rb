@@ -8,20 +8,20 @@ set :deploy_to, "/home/#{user}/app/#{application}"
 set :deploy_via, :remote_cache
 set :git_shallow_clone, 1
 set :node_env, 'production'
-set :node_port, 3000
+set :node_port, 80
 
 role :web, "54.247.166.129"
 role :app, "54.247.166.129"
 
 namespace :deploy do
   task :start do
-    run "NODE_ENV=#{node_env} PORT=#{node_port} forever start #{current_path}/app.js"
+    run "sudo NODE_ENV=#{node_env} PORT=#{node_port} forever start #{current_path}/app.js"
   end
   task :stop do
-    run "forever stop #{current_path}/app.js"
+    run "sudo forever stop #{current_path}/app.js"
   end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "forever restart #{current_path}/app.js"
+    run "sudo forever restart #{current_path}/app.js"
   end
 end
 
