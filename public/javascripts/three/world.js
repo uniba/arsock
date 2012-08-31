@@ -30,15 +30,15 @@
     
     // camera
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000);
-    //camera.position.x = - 5000;
-    camera.rotation.x = - Math.PI / 2;
-    //camera.rotation.z = - Math.PI / 2;
+    camera.position.x = - 5000;
     camera.position.y = 2000;
-    camera.position.z = 0;
+    //camera.rotation.x = - Math.PI / 8;
+    //camera.position.z = 5000;
 
     scene = new THREE.Scene();
       
     controls = new THREE.TrackballControls(camera, renderer.domElement);
+    controls.noRotate = true;
 
     scene.add(camera);
     scene.add(new ParticleGrid());
@@ -87,7 +87,7 @@
     stream.connect();
             
     this.renderer = renderer;
-    exports.camera = this.camera = camera;
+    this.camera = camera;
     this.scene = scene;
     this.controls = controls;   
     this.grid = grid;
@@ -117,7 +117,7 @@
 
     this.state.tick();
 
-    //this.controls.update();
+    this.controls.update();
 
     this.renderer.render(this.scene, this.camera);
 
