@@ -35,6 +35,18 @@
       line.scale.z = 720;
       
       that.add(line);
+    }); 
+    
+    loader.load('assets/models/linz/json/routes.js', function(geometry){
+      var material = new THREE.LineBasicMaterial({color: 0x009900, lineWidth: 1.25})
+        , line = new THREE.Line(geometry, material);
+
+      line.rotation.y = - Math.PI * 0.55;
+      line.scale.x = 720;
+      line.scale.y = 720;
+      line.scale.z = 720;
+      
+      that.add(line);
     });    
 
     loader.load('assets/models/linz/json/measurement_200m.js', function(geometry){
