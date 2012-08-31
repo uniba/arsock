@@ -3,7 +3,7 @@ var net = require('net');
 var Walker = module.exports = function(params) {
   if (!(this instanceof Walker)) return new Walker(params);
   this.params = params;
-  this._interval = 1000;
+  this._interval = 100000;
   this.slept = false;
   this.builders = [];
   this.cumProb = 0;
