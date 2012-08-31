@@ -12,12 +12,12 @@
     THREE.Object3D.call(this);
 
     var gridParticles = new THREE.Geometry()
-      , gridPMaterial = new THREE.ParticleBasicMaterial({color: 0x009900, size: 50});
+      , gridPMaterial = new THREE.ParticleBasicMaterial({color: 0x009900, size: 100});
     
     var grid = new THREE.ParticleSystem(gridParticles, gridPMaterial);
     
-    for (var i=-50000, il=100000; i<il; i+=2000) {
-      for (var j=-50000, jl=100000; j<jl; j+=2000) {     
+    for (var i=-20000, il=40000; i<il; i+=2000) {
+      for (var j=-20000, jl=40000; j<jl; j+=2000) {     
         var p = new THREE.Vector3(); 
   
         p.x = i;

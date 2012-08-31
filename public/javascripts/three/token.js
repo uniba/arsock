@@ -24,35 +24,35 @@
     loader.load('assets/models/person/json/001_body1.js', function(geometry){
       var material = new THREE.MeshBasicMaterial({ color: color, side: 2 }),
           mesh = new THREE.Mesh(geometry, material);
-      mesh.scale.set(100, 100, 100);
+      mesh.scale.set(150, 150, 150);
       body.add(mesh);
     });
 
     loader.load('assets/models/person/json/001_body2.js', function(geometry){
       var material = new THREE.LineBasicMaterial({ color: color, lineWidth: 1.25 }),
           line = new THREE.Line(geometry, material);
-      line.scale.set(100, 100, 100);
+      line.scale.set(150, 150, 150);
       body.add(line);
     });
     
     loader.load('assets/models/person/json/001_body3.js', function(geometry){
       var material = new THREE.LineBasicMaterial({ color: color, lineWidth: 1.25 }),
           line = new THREE.Line(geometry, material);
-      line.scale.set(100, 100, 100);
+      line.scale.set(150, 150, 150);
       body.add(line);
     });
     
     loader.load('assets/models/person/json/name_' + id + '.js', function(geometry){
       var material = new THREE.MeshBasicMaterial({ color: color, side: 2 }),
           mesh = new THREE.Mesh(geometry, material);
-      mesh.scale.set(100, 100, 100);
+      mesh.scale.set(150, 150, 150);
       name.add(mesh);
     });
         
     loader.load('assets/models/person/json/001_status1.js', function(geometry){
       var material = new THREE.LineBasicMaterial({ color: color, lineWidth: 1.25 }),
           line = new THREE.Line(geometry, material);
-      line.scale.set(100, 100, 100);
+      line.scale.set(150, 150, 150);
       status.add(line);
     });   
     
