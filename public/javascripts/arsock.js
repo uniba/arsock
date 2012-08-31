@@ -7,7 +7,7 @@
 
   arsock.config = {
     scale: 1000000,
-    zoom: 21,
+    zoom: 15,
     location: {
       arscenter: { latitude: 48.3096, longitude: 14.2842 }
     }

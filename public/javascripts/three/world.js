@@ -29,9 +29,9 @@
     renderer.setSize(width, height);
     
     // camera
-    camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100000);
-    camera.position.x = - 5000;
-    camera.position.y = 2000;
+    camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000000);
+    camera.position.x = - 8000;
+    camera.position.y = 5000;
     //camera.rotation.x = - Math.PI / 8;
     //camera.position.z = 5000;
 

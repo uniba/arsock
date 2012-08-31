@@ -17,10 +17,10 @@
       var material = new THREE.MeshBasicMaterial({color: 0x009900, wireframe: true}),
           mesh = new THREE.Mesh(geometry, material);
 
-      mesh.rotation.y = Math.PI;
-      mesh.scale.x = 500;
-      mesh.scale.y = 500;
-      mesh.scale.z = 500;
+      mesh.rotation.y = Math.PI * 0.76;
+      mesh.scale.x = 560;
+      mesh.scale.y = 560;
+      mesh.scale.z = 560;
       
       that.add(mesh);
     });
@@ -29,7 +29,7 @@
       var material = new THREE.LineBasicMaterial({color: 0x009900, lineWidth: 1.25})
         , line = new THREE.Line(geometry, material);
 
-      line.rotation.y = Math.PI;
+      line.rotation.y = Math.PI * 0.76;
       line.scale.x = 500;
       line.scale.y = 500;
       line.scale.z = 500;
@@ -41,9 +41,9 @@
       var material = new THREE.LineBasicMaterial({color: 0x009900, lineWidth: 1.25})
         , line = new THREE.Line(geometry, material);
 
-      line.scale.x = 500;
-      line.scale.y = 500;
-      line.scale.z = 500;
+      line.scale.x = 600;
+      line.scale.y = 600;
+      line.scale.z = 600;
       
       //that.add(line);
     });
