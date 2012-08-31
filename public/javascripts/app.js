@@ -74,6 +74,7 @@ $(function() {
     $fake.text(util.formatTime(state.getDate()));
   });
 
+  /*
   $(window).on('keydown', function(e) {
     switch (String.fromCharCode(e.keyCode)) {
     case 'Q':
@@ -96,6 +97,7 @@ $(function() {
       break;
     }
   });
+   */
 
   world.on('beforerender', stats.begin);
   world.on('afterrender', stats.end);
