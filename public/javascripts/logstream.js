@@ -19,15 +19,15 @@
         socket = io.connect('/'),
         streams = {};
     socket.on('data', function(data) {
+      var id = data.udid,
+          name = data.name,
+          stream = streams[id],
+          filtered = data;
+      
       that.filters.forEach(function(filter) {
         filtered = filter(data);
       });          
 
-      var id = data.udid,
-          name = data.name,
-          stream = streams[id],
-          filtered;
-      
       if (!stream) {
         stream = streams[id] = new PersonStream(id, name);
         that.emit('connection', stream);
