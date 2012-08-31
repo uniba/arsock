@@ -35,11 +35,9 @@
     //camera.rotation.x = - Math.PI / 8;
     //camera.position.z = 5000;
 
-    scene = new THREE.Scene();
-      
     controls = new THREE.TrackballControls(camera, renderer.domElement);
-    controls.noRotate = true;
 
+    scene = new THREE.Scene();
     scene.add(camera);
     scene.add(new ParticleGrid());
     scene.add(new LineGrid());    
