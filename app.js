@@ -9,7 +9,6 @@ var express = require('express')
   , es = require('event-stream')
   , colors = require('colors')
   , util = require('util')
-  , routes = require('./routes')
   , socket = require('./socket')
   , schema = require('./schema')
   , mongoose = schema.mongoose
@@ -17,35 +16,6 @@ var express = require('express')
   , walker = require('node-sleepwalker')
   , http = require('http');
     
-
-app.get('/map/:l', function(req, res){  
-  console.log(req.params['l'].split(','));
-  var path = '/maps/api/staticmap';
-  var params = {
-    zoom: '21',
-    size: '640x640',
-    maptype: 'roadmap',
-    sensor: 'false'
-  };
-  params['center'] = req.params['l'];
-  var tmp = [];
-  for (var key in params) {
-    tmp.push(key + '=' + params[key]);
-  }
-  path = path + '?' + tmp.join('&');
-  http.get({
-    host: 'maps.google.com',
-    path: path
-  }, function(response) {
-    response.on('data', function(chunk) {
-      res.write(chunk);
-    });
-    response.on('end', function() {
-      res.end();
-    });
-  });
-});
-
 /**
  * Stream archive data.
  */
@@ -139,3 +109,34 @@ if (!process.env.NODE_ENV) {
     .use(walker.builder('heading'), 0.8)
     .walk(9337);
 }
+
+// proxy google static map API
+app.get('/map/:zoom/:l', function(req, res){  
+  /*
+  console.log(req.params['l'].split(','));
+  var path = '/maps/api/staticmap';
+  var params = {
+    zoom: '21',
+    size: '640x640',
+    maptype: 'roadmap',
+    sensor: 'false'
+  };
+  params['center'] = req.params['l'];
+  var tmp = [];
+  for (var key in params) {
+    tmp.push(key + '=' + params[key]);
+  }
+  path = path + '?' + tmp.join('&');
+  http.get({
+    host: 'maps.google.com',
+    path: path
+  }, function(response) {
+    response.on('data', function(chunk) {
+      res.write(chunk);
+    });
+    response.on('end', function() {
+      res.end();
+    });
+  });
+  */
+});
