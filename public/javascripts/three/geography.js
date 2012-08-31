@@ -15,27 +15,37 @@
     
     loader.load('assets/models/linz/json/arselectronicacenter.js', function(geometry){
       var material = new THREE.MeshBasicMaterial({color: 0x009900, wireframe: true}),
-          line = new THREE.Mesh(geometry, material);
+          mesh = new THREE.Mesh(geometry, material);
 
-      line.position.x = 3000;
-      line.position.z = 1500;
-      line.rotation.y = Math.PI * 0.66;
+      mesh.rotation.y = Math.PI;
+      mesh.scale.x = 500;
+      mesh.scale.y = 500;
+      mesh.scale.z = 500;
+      
+      that.add(mesh);
+    });
+    
+    loader.load('assets/models/linz/json/donau.js', function(geometry){
+      var material = new THREE.LineBasicMaterial({color: 0x009900, lineWidth: 1.25})
+        , line = new THREE.Line(geometry, material);
+
+      line.rotation.y = Math.PI;
       line.scale.x = 500;
       line.scale.y = 500;
       line.scale.z = 500;
       
       that.add(line);
-    }); 
+    });    
 
-    loader.load('assets/models/linz/json/donau.js', function(geometry){
+    loader.load('assets/models/linz/json/measurement_200m.js', function(geometry){
       var material = new THREE.LineBasicMaterial({color: 0x009900, lineWidth: 1.25})
         , line = new THREE.Line(geometry, material);
 
-      line.scale.x = 10000;
-      line.scale.y = 10000;
-      line.scale.z = 10000;
+      line.scale.x = 500;
+      line.scale.y = 500;
+      line.scale.z = 500;
       
-      that.add(line);
+      //that.add(line);
     });
   };
  
