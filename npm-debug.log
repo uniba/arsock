@@ -1,0 +1,91 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install' ]
+2 info using npm@1.1.32
+3 info using node@v0.8.0
+4 verbose config file /Users/haruma/.npmrc
+5 verbose config file /usr/local/etc/npmrc
+6 verbose config file /usr/local/lib/node_modules/npm/npmrc
+7 verbose read json /Users/haruma/Documents/arsock/package.json
+8 verbose readDependencies using package.json deps
+9 verbose install where, deps [ '/Users/haruma/Documents/arsock',
+9 verbose install   [ 'express',
+9 verbose install     'jade',
+9 verbose install     'socket.io',
+9 verbose install     'stylus',
+9 verbose install     'mongoose',
+9 verbose install     'underscore',
+9 verbose install     'event-stream',
+9 verbose install     'node-sleepwalker',
+9 verbose install     'colors',
+9 verbose install     'node-dev' ] ]
+10 verbose from cache /Users/haruma/Documents/arsock/package.json
+11 info preinstall arsock@0.0.1
+12 verbose read json /Users/haruma/Documents/arsock/node_modules/event-stream/package.json
+13 verbose read json /Users/haruma/Documents/arsock/node_modules/express/package.json
+14 verbose read json /Users/haruma/Documents/arsock/node_modules/jade/package.json
+15 verbose read json /Users/haruma/Documents/arsock/node_modules/mongoose/package.json
+16 verbose read json /Users/haruma/Documents/arsock/node_modules/node-dev/package.json
+17 verbose read json /Users/haruma/Documents/arsock/node_modules/socket.io/package.json
+18 verbose read json /Users/haruma/Documents/arsock/node_modules/stylus/package.json
+19 verbose read json /Users/haruma/Documents/arsock/node_modules/underscore/package.json
+20 verbose from cache /Users/haruma/Documents/arsock/package.json
+21 verbose readDependencies using package.json deps
+22 verbose read json /Users/haruma/Documents/arsock/node_modules/.bin/package.json
+23 verbose from cache /Users/haruma/Documents/arsock/node_modules/event-stream/package.json
+24 verbose from cache /Users/haruma/Documents/arsock/node_modules/express/package.json
+25 verbose from cache /Users/haruma/Documents/arsock/node_modules/jade/package.json
+26 verbose from cache /Users/haruma/Documents/arsock/node_modules/mongoose/package.json
+27 verbose from cache /Users/haruma/Documents/arsock/node_modules/node-dev/package.json
+28 verbose from cache /Users/haruma/Documents/arsock/node_modules/socket.io/package.json
+29 verbose from cache /Users/haruma/Documents/arsock/node_modules/stylus/package.json
+30 verbose from cache /Users/haruma/Documents/arsock/node_modules/underscore/package.json
+31 verbose already installed skipping mongoose@2.5.x /Users/haruma/Documents/arsock
+32 verbose already installed skipping underscore@1.2.x /Users/haruma/Documents/arsock
+33 verbose already installed skipping event-stream@* /Users/haruma/Documents/arsock
+34 verbose cache add [ 'node-sleepwalker@git://github.com/hitsujiwool/node-sleepwalker.git',
+34 verbose cache add   null ]
+35 silly cache add name=undefined spec="node-sleepwalker@git://github.com/hitsujiwool/node-sleepwalker.git" args=["node-sleepwalker@git://github.com/hitsujiwool/node-sleepwalker.git",null]
+36 verbose parsed url { pathname: 'node-sleepwalker@git://github.com/hitsujiwool/node-sleepwalker.git',
+36 verbose parsed url   path: 'node-sleepwalker@git://github.com/hitsujiwool/node-sleepwalker.git',
+36 verbose parsed url   href: 'node-sleepwalker@git://github.com/hitsujiwool/node-sleepwalker.git' }
+37 silly cache add name="node-sleepwalker" spec="git://github.com/hitsujiwool/node-sleepwalker.git" args=["node-sleepwalker","git://github.com/hitsujiwool/node-sleepwalker.git"]
+38 verbose parsed url { protocol: 'git:',
+38 verbose parsed url   slashes: true,
+38 verbose parsed url   host: 'github.com',
+38 verbose parsed url   hostname: 'github.com',
+38 verbose parsed url   href: 'git://github.com/hitsujiwool/node-sleepwalker.git',
+38 verbose parsed url   pathname: '/hitsujiwool/node-sleepwalker.git',
+38 verbose parsed url   path: '/hitsujiwool/node-sleepwalker.git' }
+39 verbose addRemoteGit [ 'git://github.com/hitsujiwool/node-sleepwalker.git',
+39 verbose addRemoteGit   'master' ]
+40 verbose cache add [ 'colors@*', null ]
+41 silly cache add name=undefined spec="colors@*" args=["colors@*",null]
+42 verbose parsed url { pathname: 'colors@*', path: 'colors@*', href: 'colors@*' }
+43 silly cache add name="colors" spec="*" args=["colors","*"]
+44 verbose parsed url { pathname: '*', path: '*', href: '*' }
+45 verbose addNamed [ 'colors', '*' ]
+46 verbose addNamed [ null, '' ]
+47 silly addNameRange { name: 'colors', range: '', hasData: false }
+48 silly exec git "clone" "git://github.com/hitsujiwool/node-sleepwalker.git" "/var/folders/hb/l7rlw51j5x71tn6s8l9_qkkm0000gn/T/npm-1346390133006/1346390133006-0.7328303118702024"
+49 silly git,clone,git://github.com/hitsujiwool/node-sleepwalker.git,/var/folders/hb/l7rlw51j5x71tn6s8l9_qkkm0000gn/T/npm-1346390133006/1346390133006-0.7328303118702024, spawning
+50 verbose already installed skipping node-dev@* /Users/haruma/Documents/arsock
+51 verbose already installed skipping express@2.5.x /Users/haruma/Documents/arsock
+52 verbose already installed skipping jade@0.x /Users/haruma/Documents/arsock
+53 verbose already installed skipping socket.io@0.8.x /Users/haruma/Documents/arsock
+54 error git clone git://github.com/hitsujiwool/node-sleepwalker.git
+55 error Error: `git "clone" "git://github.com/hitsujiwool/node-sleepwalker.git" "/var/folders/hb/l7rlw51j5x71tn6s8l9_qkkm0000gn/T/npm-1346390133006/1346390133006-0.7328303118702024"` failed with 127
+55 error     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/exec.js:56:20)
+55 error     at ChildProcess.EventEmitter.emit (events.js:91:17)
+55 error     at Process._handle.onexit (child_process.js:674:10)
+55 error  [Error: `git "clone" "git://github.com/hitsujiwool/node-sleepwalker.git" "/var/folders/hb/l7rlw51j5x71tn6s8l9_qkkm0000gn/T/npm-1346390133006/1346390133006-0.7328303118702024"` failed with 127]
+56 error You may report this log at:
+56 error     <http://github.com/isaacs/npm/issues>
+56 error or email it to:
+56 error     <npm-@googlegroups.com>
+57 error System Darwin 12.1.0
+58 error command "node" "/usr/local/bin/npm" "install"
+59 error cwd /Users/haruma/Documents/arsock
+60 error node -v v0.8.0
+61 error npm -v 1.1.32
+62 error message `git "clone" "git://github.com/hitsujiwool/node-sleepwalker.git" "/var/folders/hb/l7rlw51j5x71tn6s8l9_qkkm0000gn/T/npm-1346390133006/1346390133006-0.7328303118702024"` failed with 127
+63 verbose exit [ 1, true ]
