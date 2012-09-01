@@ -97,7 +97,7 @@ $(function() {
       break;
     }
   });
-   */
+  */
 
   world.on('beforerender', stats.begin);
   world.on('afterrender', stats.end);
@@ -107,18 +107,21 @@ $(function() {
     .appendTo(document.body);
 
   // convert location relative to the center position, then scale it.
-  stream.addFilter(function(data) {
-    var lat,
-        lon,
-        center = config.location.arscenter;
-    if (data.type === 'location') {
-      lat = data.data.latitude,
-      lon = data.data.longitude;
-      data.data.latitude = (lat - center.latitude) * config.scale;
-      data.data.longitude = (lon - center.longitude) * config.scale;
-    }
-    return data;
-  });
+  stream.addFilter((function() {
+    var center = config.location.arscenter,
+        latCenter = util.latToY(center.latitude),
+        lonCenter = util.lonToX(center.longitude),
+        scale = Math.pow(2, 21 - (config.gmap.zoom + Math.log(config.gmap.scale) / Math.log(2)));
+    return function(data) {
+      var lat,
+          lon;
+      if (data.type === 'location') {
+        data.data.latitude = (util.latToY(data.data.latitude) -  latCenter) / scale;
+        data.data.longitude = (util.lonToX(data.data.longitude) -  lonCenter) / scale;
+      }
+      return data;
+    };
+  })());
 
   world.start();
 

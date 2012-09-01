@@ -8,6 +8,7 @@ var express = require('express')
   , io = require('./websocket')(app)
   , es = require('event-stream')
   , colors = require('colors')
+  , qs = require('querystring')
   , util = require('util')
   , socket = require('./socket')
   , schema = require('./schema')
@@ -70,7 +71,7 @@ socket.on('broadcast', function(data) {
     head = data.type.green;
   default:      
   }
-  console.log(head + ' from ' + data.name + ' (' + data.udid + ')'); 
+  console.log(head + ' from ' + data.name + ' (' + data.udid + ')');
   console.log(util.inspect(data.data) + "\n");
   io.sockets.emit('latest', data);
 });
@@ -106,21 +107,15 @@ if (!process.env.NODE_ENV) {
 
 // proxy google static map API
 app.get('/map/:zoom/:l', function(req, res){  
-  /*
-  console.log(req.params['l'].split(','));
   var path = '/maps/api/staticmap';
   var params = {
-    zoom: '21',
+    zoom: req.params['zoom'],
     size: '640x640',
     maptype: 'roadmap',
     sensor: 'false'
   };
   params['center'] = req.params['l'];
-  var tmp = [];
-  for (var key in params) {
-    tmp.push(key + '=' + params[key]);
-  }
-  path = path + '?' + tmp.join('&');
+  path += '?' + qs.unescape(qs.stringify(params));
   http.get({
     host: 'maps.google.com',
     path: path
@@ -132,5 +127,4 @@ app.get('/map/:zoom/:l', function(req, res){
       res.end();
     });
   });
-  */
 });

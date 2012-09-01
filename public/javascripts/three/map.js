@@ -1,29 +1,26 @@
 
 ;(function(exports) {
 
-  function Map(lat, lon, zoom) {
+  function Map(lat, lon, zoom, scale) {
     THREE.Object3D.call(this);
 
     var that = this,
-        tmp;
+        scale = 8,
+        tmp,
+        centerLat = lat,
+        centerLon = lon;
 
-    console.log(lat, lon, zoom);
     this.map = {};
+    this.zoom = zoom;
     this.set(0, 0, lat, lon);
-
-    for (var i = 1; i < 15; i++) {
-      lat = util.latitudeSouthTo(lat, lon, zoom, 640);
-      this.set(0, i, lat, lon);
-    }
 
     Object.keys(this.map).forEach(function(x) {      
       Object.keys(that.map[x]).forEach(function(y) {
-        console.log(x, y, that.get(x, y));
         that.load(that.get(x, y), function(map) {
-          map.scale.x = 2;
-          map.scale.y = 2;
+          map.scale.x = scale;
+          map.scale.y = scale;
           map.rotation.x = - Math.PI / 2;
-          map.position.z = 1280 * parseInt(y, 10);
+          map.position.z = 640 * scale * parseInt(y, 10);
           map.doubleSided = true;
           that.add(map);
         });
@@ -53,7 +50,7 @@
   };
   
   Map.prototype.load = function(location, callback) {
-    var path = '/map/' + location.latitude.toString() + ',' + location.longitude.toString();
+    var path = '/map/' + this.zoom + '/' + location.latitude.toString() + ',' + location.longitude.toString();
     THREE.ImageUtils.loadTexture(path, {}, function(texture) {
       var material = new THREE.MeshBasicMaterial({ map: texture }),
           geometry = new THREE.PlaneGeometry(640, 640),

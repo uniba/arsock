@@ -32,8 +32,6 @@
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000000);
     camera.position.x = 10000;
     camera.position.y = 4000;
-    //camera.rotation.x = - Math.PI / 8;
-    //camera.position.z = 5000;
 
     controls = new THREE.TrackballControls(camera, renderer.domElement);
 
@@ -42,7 +40,7 @@
     scene.add(new ParticleGrid());
     scene.add(new LineGrid());    
     scene.add(new Geography());
-    //scene.add(new Map(config.location.arscenter.latitude, config.location.arscenter.longitude, config.zoom));
+    scene.add(new Map(config.location.arscenter.latitude, config.location.arscenter.longitude, config.gmap.zoom, config.gmap.scale));
 
     stream.on('connection', function(personStream) {
       var person = new Person(personStream, that.scene);
@@ -68,10 +66,10 @@
         camera.position.y -= delta;
         break;
       case 'left':
-        camera.position.x -= delta;
+        camera.rotation.y -= Math.PI / 8;
         break;
       case 'right':
-        camera.position.x += delta;
+        camera.rotation.y += Math.PI / 8;
         break;
       case 'forward':
         camera.position.z -= delta;

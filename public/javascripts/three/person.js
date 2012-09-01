@@ -20,7 +20,7 @@
         that.counter++;
         // location data is already converted to the relative position.
         // see app.js, where Logstream#addFilter() is called.
-        that.updateLocation(data.data.latitude, 0, data.data.longitude);
+        that.updateLocation(data.data.longitude, 0, data.data.latitude);
       } else if (data.type === 'heading') {
         token.updateDirection(util.deg2rad(data.data.trueHeading));
       } else if (data.type === 'acceleration') {
@@ -75,12 +75,12 @@
   };
 
   Person.prototype.updateLocation = function(x, y, z) {
-    this.token.updateLocation(x, 0, z);
-    this.addTokenAt(x, 0, z);
+    this.token.updateLocation(x, y, z);
+    this.addTokenAt(x, y, z);
   };
 
   Person.prototype.addTokenAt = function(x, y, z) {
-    this.route.geometry.vertices[this.counter].set(x, 0, z);
+    this.route.geometry.vertices[this.counter].set(x, y, z);
   };
 
   // 標準のループ
