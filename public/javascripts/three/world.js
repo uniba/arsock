@@ -40,7 +40,7 @@
     scene.add(new ParticleGrid());
     scene.add(new LineGrid());    
     scene.add(new Geography());
-    scene.add(new Map(config.location.arscenter.latitude, config.location.arscenter.longitude, config.gmap.zoom, config.gmap.scale));
+    //scene.add(new Map(config.location.arscenter.latitude, config.location.arscenter.longitude, config.gmap.zoom, config.gmap.scale));
 
     stream.on('connection', function(personStream) {
       var person = new Person(personStream, that.scene);
