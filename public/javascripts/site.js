@@ -11,10 +11,12 @@
 
 $(function() {
 
-  var config = arsock.config;
+  var config = arsock.config,
+      startTime = new Date(2012, 8, 25, 18, 30).getTime();
+        
 
-  var stream = new LogStream(),
-      state = new State(),
+  var stream = new LogStream(startTime),
+      state = new State(startTime),
       world = new World(stream, state, window.innerWidth, window.innerHeight, config),
       stats = new Stats();
 

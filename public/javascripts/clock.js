@@ -8,13 +8,13 @@
 ;(function(exports) {  
 
   /**
+   * @param {Date} date 初期時刻
    * @param {Number} speed 時計のスピード
    * @param {Boolean} overtime 実時間より未来に進むか否か
    */
-  function Clock(speed, overtime) {
-    var now = new Date().getTime();    
-    this.current = now;
-    this.timeWhenChecked = now;
+  function Clock(time, speed, overtime) {
+    this.current = time || new Date().getTime();
+    this.timeWhenChecked = new Date().getTime();
     this.speed = speed || 1;
     this.overtime = overtime;
   };

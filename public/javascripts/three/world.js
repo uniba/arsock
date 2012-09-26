@@ -43,7 +43,7 @@
     //scene.add(new Map(config.location.arscenter.latitude, config.location.arscenter.longitude, config.gmap.zoom, config.gmap.scale));
 
     stream.on('connection', function(personStream) {
-      var person = new Person(personStream, that.scene);
+      var person = new Person(personStream, state);
       that.people[personStream.id] = person;
       that.scene.add(person);
     });
