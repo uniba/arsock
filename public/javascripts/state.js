@@ -8,9 +8,9 @@
 
 ;(function(exports) {
 
-  function State(time) {
+  function State(startDate) {
     EventEmitter.call(this);
-    this.clock = new Clock(time);
+    this.clock = new Clock(startDate);
   }
   
   State.prototype = new EventEmitter();

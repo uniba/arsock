@@ -82,8 +82,8 @@ builder.location = function() {
       data[key] = walker.params[key];
     }
     data.type = 'location';
-    latitude = latitude += rand(0.00005);
-    longitude = longitude += rand(0.00005);
+    latitude = latitude += rand(0.0001);
+    longitude = longitude += rand(0.0001);
     data.data = {
       latitude: latitude,
       longitude: longitude,

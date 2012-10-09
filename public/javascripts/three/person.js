@@ -116,7 +116,7 @@
       this.token.updateLocation(data.data.longitude, 0, data.data.latitude);
       this.addFootPrint(data.data.longitude, 0, data.data.latitude);
     } else if (data.type === 'heading') {
-      this.token.updateDirection(util.deg2rad(data.data.trueHeading));
+      //this.token.updateDirection(util.deg2rad(data.data.trueHeading));
     } else if (data.type === 'acceleration') {
       // do something!
     }
@@ -124,10 +124,10 @@
 
   Person.prototype.renderBackward = function(data) {
     if (data.type === 'location') {
-      this.token.updateLocation(data.data.longitude, 0, data.data.latitude);
+      //this.token.updateLocation(data.data.longitude, 0, data.data.latitude);
       this.removeFootPrint();
     } else if (data.type === 'heading') {
-      this.token.updateDirection(util.deg2rad(data.data.trueHeading));
+      //this.token.updateDirection(util.deg2rad(data.data.trueHeading));
     } else if (data.type === 'acceleration') {
       // do something!
     }

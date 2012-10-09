@@ -36,57 +36,12 @@ app.configure('production', config.production);
 /**
  * Broadcasting.
  */
+
 io.sockets.on('connection', function(socket) {
+  var connectedTime = new Date().getTime();
 
-  var offset = 0,
-      startTime,
-      stop;       
-
-  function loop (callback) {
-    Log
-      .where('data.timestamp')
-      .gt(startTime)
-      .sort('data.timestamp')
-      .limit(1000)
-      .skip(offset)
-      .exec(function(err, doc) {
-        if (err) return;
-        var len = doc.length,
-            el = doc.shift();
-        function emit() {
-          if (stop) {
-            callback(0);
-          }
-          if (el) {
-            io.sockets.emit('latest', el);
-            el = doc.shift();
-            setTimeout(function() {
-              emit();
-            }, 0);
-          } else {
-            callback(len);
-          }
-        };
-        emit();
-      });
-  };
-
-  function callback(i) {
-    if (i > 0) {
-      offset += i;
-      setTimeout(function() {
-        loop(callback);
-      });
-    }
-  }
-
-  socket.on('initialize', function(time) {
-    startTime = time;
-    loop(callback);
-  });
-
-  socket.on('disconnect', function() {
-    stop = true;
+  socket.on('initialize', function(fn) {
+    fn(connectedTime);
   });
 });
 
@@ -118,7 +73,7 @@ socket.on('broadcast', function(data) {
       console.error(err);
     }
   });
-   */
+  */
 });
 
 /**
@@ -133,20 +88,43 @@ socket.listen(9337, function() {
 
 // in the development environment, create dummy TCP client.
 if (!process.env.NODE_ENV) {
-/*
-  walker({ name: 'sleepwalker', udid: 'sleepwalker' + Math.floor(Math.random() * 1000000) })
+  /*
+  walker({ name: 'person1', udid: 'sleepwalker' + Math.floor(Math.random() * 1000000) })
     .interval(100)
     .use(walker.builder('location', 48.3192, 14.3030), 0.2)
     .use(walker.builder('heading'), 0.8)
     .walk(9337);
 
-  walker({ name: 'sleepwalker', udid: 'sleepwalker' + Math.floor(Math.random() * 1000000) })
+  walker({ name: 'person2', udid: 'sleepwalker' + Math.floor(Math.random() * 1000000) })
     .interval(100)
     .use(walker.builder('location', 48.3096, 14.2842), 0.2)
     .use(walker.builder('heading'), 0.8)
     .walk(9337);
-*/
+   */
+
 }
+
+app.get('/api/logs', function(req, res) {
+  var limit = parseInt(req.query.limit) || 1000,
+      offset = parseInt(req.query.offset) || 0,
+      from = parseInt(req.query.from) || new Date().getTime(),
+      until = parseInt(req.query.until) || new Date().getTime();
+  
+  Log
+    .where('data.timestamp')
+    .gt(from)
+    .lt(until)
+    .sort('data.timestamp')
+    .limit(limit)
+    .skip(offset)
+    .exec(function(err, doc) {
+      if (err) {
+        res.status(500).send(JSON.stringify([]));
+        return;
+      }
+      res.send(JSON.stringify(doc));
+    });
+});
 
 // proxy google static map API
 app.get('/map/:zoom/:l', function(req, res){  
